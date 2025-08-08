@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - NutriPlan - Thực Đơn Sống Khỏe</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=League+Spartan:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@400;700&family=Dancing+Script:wght@400;700&family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Thêm Swiper CSS và JS vào head -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="account.css" />
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="picture/NutriPlan.png" alt="NutriPlan Logo" id="logo-img"> 
+            <div class="site-title">NutriPlan</div>
+            <div class="tagline">Thực Đơn Sống Khỏe</div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+            <li><a href="index.html">Trang Chủ</a></li>
+            <li><a href="calculator.html">Tính CALO & TDEE & BMR</a></li>
+            <li><a href="FoodandRecipes.html">Món Ăn & Công Thức</a></li>
+            <li><a href="about.html">Giới Thiệu</a></li>
+            <li><a href="contact.html">Liên Hệ</a></li>
+            <li><a href="terms.htht">Điều Khoản & Bảo Mật</a></li>
+        </ul>
+            <div class="nav-login">
+                <div class="user-dropdown">
+                    <a href="#" id="loginBtn" class="login-btn">Đăng Nhập</a>
+                    <div class="user-dropdown-content">
+                        <a href="account.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Tài khoản
+                        </a>
+                        <a href="#" id="logoutBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="about" class="about-section">
+            <div class="container">
+                <h1>Về NutriPlan</h1>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>NutriPlan là nền tảng dinh dưỡng thông minh, được tạo ra với sứ mệnh giúp mọi người xây dựng thói quen ăn uống lành mạnh và duy trì lối sống khỏe mạnh. Chúng tôi tin rằng dinh dưỡng đóng vai trò quan trọng trong việc nâng cao chất lượng cuộc sống của mỗi người.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="picture/NutriPlan.png" alt="NutriPlan Team">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="vision-mission">
+            <div class="container">
+                <div class="vision-box">
+                    <h2>Tầm Nhìn</h2>
+                    <p>Trở thành nền tảng dinh dưỡng hàng đầu tại Việt Nam, giúp mọi người dễ dàng tiếp cận và áp dụng chế độ dinh dưỡng khoa học vào cuộc sống hàng ngày.</p>
+                </div>
+                <div class="mission-box">
+                    <h2>Sứ Mệnh</h2>
+                    <p>Cung cấp giải pháp dinh dưỡng toàn diện, dễ tiếp cận và cá nhân hóa, giúp người dùng xây dựng thói quen ăn uống lành mạnh và đạt được mục tiêu sức khỏe của mình.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Tính Năng Chính</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <img src="https://static.vecteezy.com/system/resources/previews/005/648/585/non_2x/insufficient-calories-consumption-gradient-linear-icon-inadequate-nutrients-consumption-leads-to-health-problem-thin-line-color-symbol-modern-style-pictogram-isolated-outline-drawing-vector.jpg" alt="Tính Calo" style="width: 100px; height: 100px; object-fit: contain;">
+                        <h3>Tính Calo & TDEE</h3>
+                        <p>Công cụ tính toán calo và nhu cầu năng lượng hàng ngày chính xác, giúp bạn kiểm soát cân nặng hiệu quả.</p>
+                    </div>
+                    <div class="feature-card">
+                        <img src="https://cdn-icons-png.flaticon.com/512/9756/9756984.png;">
+                        <h3>Thực Đơn Cá Nhân</h3>
+                        <p>Xây dựng thực đơn phù hợp với mục tiêu và sở thích của bạn, đảm bảo dinh dưỡng cân bằng.</p>
+                    </div>
+                    <div class="feature-card">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4673/4673720.png" alt="Công Thức" style="width: 100px; height: 100px; object-fit: contain;">
+                        <h3>Công Thức Nấu Ăn</h3>
+                        <p>Kho công thức nấu ăn đa dạng, dễ thực hiện và đầy đủ dinh dưỡng cho mọi bữa ăn.</p>
+                    </div>
+                    <div class="feature-card">
+                        <img src="https://cdn-icons-png.flaticon.com/512/680/680121.png" alt="Theo Dõi" style="width: 100px; height: 100px; object-fit: contain;">
+                        <h3>Theo Dõi Tiến Độ</h3>
+                        <p>Giúp bạn theo dõi và đánh giá tiến độ đạt được mục tiêu sức khỏe của mình.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="team">
+            <div class="container">
+                <h2>Đội Ngũ Chuyên Gia</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="picture/quynh.jpg" alt="Chuyên Gia Dinh Dưỡng">
+                        <h3>Huỳnh Lê Như Quỳnh</h3>
+                        <p>Thạc sĩ Dinh dưỡng tại Đại học Y Dược TP.HCM, với hơn 10 năm kinh nghiệm tư vấn dinh dưỡng cho các chương trình giảm cân, tăng cơ và chăm sóc sức khỏe toàn diện. Chuyên gia phát triển thực đơn khoa học, phù hợp với từng cá nhân dựa trên thể trạng và mục tiêu sức khỏe. Tham gia nhiều hội thảo quốc tế về dinh dưỡng và sức khỏe cộng đồng.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="picture/505822c3-8413-4ba2-9562-3308be74f91f.png" alt="Bác Sĩ">
+                        <h3>Nguyễn Trọng Quí</h3>
+                        <p>Bác sĩ chuyên khoa Nội tổng quát, tốt nghiệm Đại học Y Hà Nội. 15 năm kinh nghiệm khám chữa bệnh và tư vấn sức khỏe cho bệnh nhân trong nhiều lĩnh vực nội khoa. Đã thực hiện hàng nghìn ca khám sức khỏe định kỳ và điều trị các bệnh mãn tính như tiểu đường, tim mạch. Đam mê nghiên cứu và áp dụng y học hiện đại vào chăm sóc sức khỏe cá nhân.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Chào mừng đến với NutriPlan</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-tabs">
+                    <button class="tab-btn active" data-tab="login">Đăng Nhập</button>
+                    <button class="tab-btn" data-tab="register">Đăng Ký</button>
+                </div>
+                
+                <div id="login" class="tab-content active">
+                    <div class="social-login">
+                        <button class="social-login-btn" id="googleLogin">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                            Đăng nhập với Google
+                        </button>
+                    </div>
+                    <div class="divider">
+                        <span>hoặc</span>
+                    </div>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Mật khẩu</label>
+                            <input type="password" id="loginPassword" required placeholder="Nhập mật khẩu của bạn">
+                        </div>
+                        <button type="submit" class="submit-btn">Đăng Nhập</button>
+                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                    </form>
+                </div>
+
+                <div id="register" class="tab-content">
+                    <div class="social-login">
+                        <button class="social-login-btn" id="googleRegister">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                            Đăng ký với Google
+                        </button>
+                    </div>
+                    <div class="divider">
+                        <span>hoặc</span>
+                    </div>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerName">Họ và tên</label>
+                            <input type="text" id="registerName" required placeholder="Nhập họ và tên của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email</label>
+                            <input type="email" id="registerEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Mật khẩu</label>
+                            <input type="password" id="registerPassword" required placeholder="Nhập mật khẩu của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Xác nhận mật khẩu</label>
+                            <input type="password" id="confirmPassword" required placeholder="Nhập lại mật khẩu">
+                        </div>
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a></label>
+                        </div>
+                        <button type="submit" class="submit-btn">Đăng Ký</button>
+                    </form>
+                </div>
+
+                <div id="forgotPassword" class="tab-content">
+                    <h2 style="font-size: 1.3rem; margin-bottom: 1rem;">Quên Mật Khẩu</h2>
+                    <p style="margin-bottom: 1.2rem; color: #666; font-size: 0.9rem;">Nhập email của bạn để nhận link đặt lại mật khẩu</p>
+                    <form id="forgotPasswordForm">
+                        <div class="form-group">
+                            <label for="forgotEmail">Email</label>
+                            <input type="email" id="forgotEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <button type="submit" class="submit-btn">Gửi Link Đặt Lại Mật Khẩu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col about">
+                <img src="picture/NutriPlan.png" alt="NutriPlan Logo" class="footer-logo">
+                <div class="footer-brand">NutriPlan</div>
+                <div class="footer-slogan">Thực Đơn Sống Khỏe</div>
+                <p class="footer-desc">Đồng hành cùng bạn xây dựng thực đơn khoa học, sống khỏe mỗi ngày.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Về NutriPlan</h4>
+                <ul>
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="about.html">Giới Thiệu</a></li>
+                    
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Sức Khỏe</h4>
+                <ul>
+                    <li><a href="calculator.html">Tính Calo & TDEE</a></li>
+                    <li><a href="FoodandRecipes.html">Món Ăn & Công Thức</a></li>
+                    <li><a href="account.html">Tài Khoản</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Hỗ Trợ</h4>
+                <ul>
+                    <li><a href="contact.html">Liên Hệ</a></li>
+                    <li><a href="terms.html">Chính Sách Bảo Mật</a></li>
+                    <li><a href="terms.html">Điều Khoản Sử Dụng</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kết Nối</h4>
+                
+                <div class="footer-contact">
+                    <div class="footer-contact-row"><span class="footer-contact-label">Hotline:</span> <span class="footer-contact-content"><a href="tel:0888192049">0888 192 049</a></span></div>
+                    <div class="footer-contact-row"><span class="footer-contact-label">Email:</span> <span class="footer-contact-content"><a class="footer-email" href="mailto:nutriplan@gmail.com">nutriplan@gmail.com</a></span></div>
+                    <div class="footer-contact-row"><span class="footer-contact-label">Địa chỉ:</span> <span class="footer-contact-content">168 Nguyễn Văn Cừ nối dài,An Bình,Ninh Kiều,Cần Thơ</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 NutriPlan. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDi1RRzsP4TtZ1R-o9Tst5UX1t1C0BI2pA",
+            authDomain: "nutriplan-f335e.firebaseapp.com",
+            databaseURL: "https://nutriplan-f335e-default-rtdb.firebaseio.com",
+            projectId: "nutriplan-f335e",
+            storageBucket: "nutriplan-f335e.firebasestorage.app",
+            messagingSenderId: "594370805250",
+            appId: "1:594370805250:web:4b54c8e3e88b152858b11b",
+            measurementId: "G-5FT11ZN85P"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DOM SELECTORS ---
+            const modal = document.getElementById('loginModal');
+            const loginBtn = document.getElementById('loginBtn');
+            const closeBtn = document.querySelector('.close');
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const forgotPasswordLink = document.querySelector('.forgot-password');
+            const userDropdown = document.querySelector('.user-dropdown');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const contactForm = document.querySelector('.contact-form');
+            const googleLoginBtn = document.getElementById('googleLogin');
+            const googleRegisterBtn = document.getElementById('googleRegister');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+            // Swiper/slider selectors
+            const scrollLeftBtn = document.querySelector('.scroll-btn:first-child');
+            const scrollRightBtn = document.querySelector('.scroll-btn:last-child');
+            const recipesGrid = document.querySelector('.recipes-grid');
+            const recipesSection = document.querySelector('.recipes-section');
+            const recipeCards = document.querySelectorAll('.recipe-card');
+
+            // --- COMMON FUNCTIONS ---
+            function showSuccessAlert(title, text) {
+                Swal.fire({ title, text, icon: 'success', timer: 1500, showConfirmButton: false });
+            }
+            function showErrorAlert(title, text) {
+                Swal.fire({ title, text, icon: 'error' });
+            }
+            function showLoadingAlert(text = 'Vui lòng đợi trong giây lát') {
+                Swal.fire({ title: 'Đang xử lý...', text, allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+            }
+
+            // --- HERO SLIDER ---
+            const slides = document.querySelectorAll('.hero-slide');
+            const prevBtn = document.querySelector('.hero-nav-left');
+            const nextBtn = document.querySelector('.hero-nav-right');
+            let currentSlide = 0;
+            let slideInterval;
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[index].classList.add('active');
+            }
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+            function startSlideShow() { slideInterval = setInterval(nextSlide, 5000); }
+            function stopSlideShow() { clearInterval(slideInterval); }
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => { prevSlide(); stopSlideShow(); startSlideShow(); });
+                nextBtn.addEventListener('click', () => { nextSlide(); stopSlideShow(); startSlideShow(); });
+            }
+            if (slides.length) startSlideShow();
+
+            // --- CONTACT FORM ---
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Add form submission logic here
+                    console.log('Form submitted');
+                });
+            }
+
+            // --- MODAL & DROPDOWN ---
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (firebase.auth().currentUser) {
+                    userDropdown.classList.toggle('show');
+                } else {
+                    modal.classList.add('show');
+                }
+            });
+            closeBtn.addEventListener('click', function() { modal.classList.remove('show'); });
+            window.addEventListener('click', function(e) { if (e.target === modal) modal.classList.remove('show'); });
+            document.addEventListener('click', function(e) { if (!userDropdown.contains(e.target)) userDropdown.classList.remove('show'); });
+
+            // --- TABS ---
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId) content.classList.add('active');
+                    });
+                });
+            });
+            forgotPasswordLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById('forgotPassword').classList.add('active');
+            });
+
+            // --- AUTH FORMS ---
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                if (!email || !password) return showErrorAlert('Lỗi!', 'Vui lòng điền đầy đủ thông tin');
+                firebase.auth().signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        return firebase.database().ref('users/' + user.uid).update({ lastLogin: new Date().toISOString() })
+                            .then(() => {
+                                showSuccessAlert('Thành công!', 'Đăng nhập thành công');
+                                modal.classList.remove('show');
+                                updateLoginState(user);
+                            });
+                    })
+                    .catch((error) => showErrorAlert('Lỗi!', error.message));
+            });
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const name = document.getElementById('registerName').value;
+                const terms = document.getElementById('terms').checked;
+                if (!email || !password || !confirmPassword || !name) return showErrorAlert('Lỗi!', 'Vui lòng điền đầy đủ thông tin');
+                if (password !== confirmPassword) return showErrorAlert('Lỗi!', 'Mật khẩu xác nhận không khớp');
+                if (!terms) return showErrorAlert('Lỗi!', 'Vui lòng đồng ý với điều khoản sử dụng');
+                showLoadingAlert();
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        return user.updateProfile({ displayName: name }).then(() => {
+                            const userData = {
+                                uid: user.uid,
+                                email: user.email,
+                                displayName: name,
+                                photoURL: user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png',
+                                lastLogin: new Date().toISOString(),
+                                provider: 'password',
+                                createdAt: new Date().toISOString()
+                            };
+                            return firebase.database().ref('users/' + user.uid).set(userData)
+                                .then(() => firebase.auth().signInWithEmailAndPassword(email, password));
+                        });
+                    })
+                    .then(() => {
+                        showSuccessAlert('Thành công!', 'Đăng ký và đăng nhập thành công');
+                        modal.classList.remove('show');
+                        updateLoginState(firebase.auth().currentUser);
+                    })
+                    .catch((error) => {
+                        let errorMessage = 'Có lỗi xảy ra khi đăng ký';
+                        switch (error.code) {
+                            case 'auth/email-already-in-use': errorMessage = 'Email này đã được sử dụng. Vui lòng sử dụng email khác hoặc đăng nhập'; break;
+                            case 'auth/invalid-email': errorMessage = 'Email không hợp lệ'; break;
+                            case 'auth/weak-password': errorMessage = 'Mật khẩu quá yếu. Vui lòng sử dụng mật khẩu mạnh hơn'; break;
+                            default: errorMessage = error.message;
+                        }
+                        showErrorAlert('Lỗi!', errorMessage);
+                    });
+            });
+            forgotPasswordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('forgotEmail').value;
+                if (!email) return showErrorAlert('Lỗi!', 'Vui lòng nhập email của bạn');
+                firebase.auth().sendPasswordResetEmail(email)
+                    .then(() => {
+                        showSuccessAlert('Thành công!', 'Link đặt lại mật khẩu đã được gửi đến email của bạn');
+                        modal.classList.remove('show');
+                    })
+                    .catch((error) => showErrorAlert('Lỗi!', 'Gửi email thất bại: ' + error.message));
+            });
+
+            // --- GOOGLE AUTH ---
+            const googleProvider = new firebase.auth.GoogleAuthProvider();
+            googleProvider.setCustomParameters({ prompt: 'select_account' });
+            function handleGoogleAuth() {
+                showLoadingAlert();
+                firebase.auth().signInWithPopup(googleProvider)
+                    .then((result) => {
+                        const user = result.user;
+                        return firebase.database().ref('users/' + user.uid).once('value')
+                            .then((snapshot) => {
+                                if (!snapshot.exists()) {
+                                    const userData = {
+                                        uid: user.uid,
+                                        email: user.email,
+                                        displayName: user.displayName,
+                                        photoURL: user.photoURL,
+                                        lastLogin: new Date().toISOString(),
+                                        provider: 'google.com',
+                                        createdAt: new Date().toISOString()
+                                    };
+                                    return firebase.database().ref('users/' + user.uid).set(userData);
+                                } else {
+                                    return firebase.database().ref('users/' + user.uid).update({ lastLogin: new Date().toISOString() });
+                                }
+                            })
+                            .then(() => {
+                                showSuccessAlert('Thành công!', 'Đăng nhập thành công');
+                                modal.classList.remove('show');
+                                updateLoginState(user);
+                            });
+                    })
+                    .catch((error) => {
+                        let errorMessage = 'Có lỗi xảy ra khi đăng nhập';
+                        switch (error.code) {
+                            case 'auth/popup-closed-by-user': errorMessage = 'Đăng nhập bị hủy. Vui lòng thử lại'; break;
+                            case 'auth/popup-blocked': errorMessage = 'Trình duyệt đã chặn cửa sổ popup. Vui lòng cho phép popup và thử lại'; break;
+                            case 'auth/cancelled-popup-request': errorMessage = 'Đăng nhập bị hủy. Vui lòng thử lại'; break;
+                            default: errorMessage = error.message;
+                        }
+                        showErrorAlert('Lỗi!', errorMessage);
+                    });
+            }
+            googleLoginBtn.addEventListener('click', handleGoogleAuth);
+            googleRegisterBtn.addEventListener('click', handleGoogleAuth);
+
+            // --- UPDATE LOGIN STATE ---
+            function updateLoginState(user) {
+                if (user) {
+                    let displayName;
+                    const photoURL = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                    if (user.providerData && user.providerData[0]) {
+                        const provider = user.providerData[0].providerId;
+                        if (provider === 'password') displayName = user.email.split('@')[0];
+                        else displayName = user.displayName || user.email.split('@')[0];
+                    } else {
+                        displayName = user.displayName || user.email.split('@')[0] || 'Tài khoản';
+                    }
+                    const formattedName = displayName.length > 5 ? displayName.substring(0, 5) + '...' : displayName;
+                    loginBtn.innerHTML = `<img src="${photoURL}" alt="Avatar" class="user-avatar"><span>${formattedName}</span>`;
+                    loginBtn.href = '#';
+                    const userData = {
+                        uid: user.uid,
+                        email: user.email,
+                        displayName: user.displayName || displayName,
+                        photoURL: photoURL,
+                        lastLogin: new Date().toISOString(),
+                        provider: user.providerData[0]?.providerId || 'unknown'
+                    };
+                    firebase.database().ref('users/' + user.uid).update(userData)
+                        .then(() => { /* console.log('User data saved successfully'); */ })
+                        .catch((error) => { /* console.error('Error saving user data:', error); */ });
+                } else {
+                    loginBtn.innerHTML = 'Đăng Nhập';
+                    loginBtn.href = '#';
+                }
+            }
+            firebase.auth().onAuthStateChanged(function(user) {
+                updateLoginState(user);
+                if (user) modal.classList.remove('show');
+            });
+
+            // --- LOGOUT ---
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Đăng xuất?',
+                    text: "Bạn có chắc chắn muốn đăng xuất?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đăng xuất',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        firebase.auth().signOut().then(() => {
+                            showSuccessAlert('Đã đăng xuất!', 'Bạn đã đăng xuất thành công.');
+                            userDropdown.classList.remove('show');
+                        }).catch(() => {
+                            showErrorAlert('Lỗi!', 'Có lỗi xảy ra khi đăng xuất.');
+                        });
+                    }
+                });
+            });
+
+            // --- SWIPER ---
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('.recipes-slider', {
+                    slidesPerView: 3,
+                    spaceBetween: 24,
+                    loop: true,
+                    centeredSlides: false,
+                    autoplay: { delay: 3500, disableOnInteraction: false },
+                    pagination: { el: '.swiper-pagination', clickable: true },
+                    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                    breakpoints: {
+                        320: { slidesPerView: 1.1, spaceBetween: 10 },
+                        600: { slidesPerView: 1.5, spaceBetween: 16 },
+                        900: { slidesPerView: 2, spaceBetween: 20 },
+                        1200: { slidesPerView: 3, spaceBetween: 24 }
+                    }
+                });
+            }
+
+            // --- ANIMATION ON SCROLL ---
+            function isInViewport(element) {
+                if (!element) return false;
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.bottom >= 0
+                );
+            }
+            function handleScrollAnimation() {
+                if (recipesSection && isInViewport(recipesSection)) {
+                    recipesSection.classList.add('visible');
+                    recipeCards.forEach((card, index) => {
+                        setTimeout(() => { card.classList.add('visible'); }, index * 200);
+                    });
+                }
+            }
+            window.addEventListener('scroll', handleScrollAnimation);
+            handleScrollAnimation();
+
+            // --- SCROLL BUTTONS ---
+            if (scrollLeftBtn && scrollRightBtn && recipesGrid) {
+                scrollLeftBtn.addEventListener('click', () => {
+                    recipesGrid.scrollBy({ left: -300, behavior: 'smooth' });
+                });
+                scrollRightBtn.addEventListener('click', () => {
+                    recipesGrid.scrollBy({ left: 300, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

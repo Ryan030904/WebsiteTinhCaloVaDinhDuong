@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - NutriPlan - Thực Đơn Sống Khỏe</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=League+Spartan:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@400;700&family=Dancing+Script:wght@400;700&family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Thêm Swiper CSS và JS vào head -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+         @font-face {
+            font-family: 'SEGO';
+            src: url('font/SEGO.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'SVN-Taken by Vultures';
+            src: url('SVN-Taken by Vultures.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PlayfairDisplay';
+            src: url('font/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        :root {
+            --primary-color: #097770;
+            --secondary-color: #ffb82e;
+            --text-color: #1E1E1E;
+            --bg-color: #f8f9fa;
+            --white: #FFFFFF;
+            --shadow: 0 4px 24px rgba(0,0,0,0.10);
+            --transition: all 0.3s cubic-bezier(.4,0,.2,1);
+            --swiper-theme-color: #07a044;
+            --swiper-navigation-size: 44px;
+            --mauNenKhung: #fff0f0;
+            --mauChuDanhSachSanPham: #212b35;
+            --mauNenLabel: #ffe5e5;
+            --mauChuLabel: #ff4d4d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-color);
+            line-height: 1.7;
+            background-color: var(--bg-color);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #FFE5B4;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #logo-img {
+            width: 105px;
+            height: 105px;
+            margin-bottom: -20px;
+            background-color: var(--white);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .site-title {
+            font-family: 'SEGO', sans-serif;
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tagline {
+            font-family: 'SVN-Taken by Vultures', sans-serif;
+            font-size: 3.0em;
+            color: #000000;
+            margin-top: -5px;
+            margin-bottom: 15px;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: var(--primary-color);
+            padding: 0.8rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu li a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.95em;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-menu li a:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .nav-login {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 200px;
+        }
+
+        .login-btn {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            font-weight: bold;
+            border-radius: 20px;
+            padding: 8px 20px;
+            border: none;
+            font-size: 1em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .login-btn .user-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .login-btn span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .login-btn:hover {
+            background: #FFA726;
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 25px;
+            max-width: 1200px;
+            margin: 30px auto;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Hero Slider Styles */
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-slides {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            color: #333;
+            transition: var(--transition);
+        }
+
+        .hero-nav:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero-nav-left { left: 24px; }
+        .hero-nav-right { right: 24px; }
+
+        /* CTA Button Styles */
+        .hero-cta {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            padding: 14px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.15em;
+            font-weight: bold;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cta-button:hover {
+            background-color: #FFA726;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Features Section Styles */
+        #features {
+            text-align: center;
+            padding: 2.5rem 0;
+        }
+
+        #features h2 {
+            font-size: 2.2em;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        .feature-item {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        }
+
+        .feature-item img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item h3 {
+            font-size: 1.6em;
+            margin-bottom: 0.6em;
+            color: #4A7F53;
+        }
+
+        /* Recipes Section Styles */
+        .recipes-section {
+            padding: 3rem 0;
+            margin: 2.5rem 0;
+            background-color: var(--bg-color);
+        }
+
+        .recipes-section h2 {
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+        }
+
+        .recipes-container {
+            position: relative;
+            padding: 0 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .recipes-slider {
+            position: relative;
+            padding: 40px 0 60px 0;
+            overflow: hidden !important;
+        }
+
+        .recipes-slider .swiper-wrapper {
+            overflow: visible; /* hoặc bỏ dòng này đi */
+        }
+
+        .recipes-slider .swiper-slide {
+            width: auto; /* hoặc bỏ width cứng */
+            margin-right: 24px;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .recipe-card {
+            background: var(--white);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            min-height: 320px;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.16);
+        }
+
+        .recipe-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .recipe-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .recipe-content {
+            padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+            background: var(--white);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .recipe-content h3 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-bottom: 0.7rem;
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+        }
+
+        .recipe-content p {
+            color: var(--text-color);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        .recipe-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.7rem 1.5rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            font-family: 'Lexend', sans-serif;
+            font-size: 1em;
+            margin-top: auto;
+        }
+
+        .recipe-link:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,184,46,0.18);
+        }
+
+        /* Swiper Navigation Buttons */
+        .recipes-slider .swiper-button-next,
+        .recipes-slider .swiper-button-prev {
+            width: 48px;
+            height: 48px;
+            background: var(--white);
+            border-radius: 50%;
+            color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: var(--transition);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .recipes-slider .swiper-button-next {
+            right: 8px;
+            left: auto;
+        }
+        .recipes-slider .swiper-button-prev {
+            left: 8px;
+            right: auto;
+        }
+        .recipes-slider .swiper-button-next:after,
+        .recipes-slider .swiper-button-prev:after {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .recipes-slider .swiper-button-next:hover,
+        .recipes-slider .swiper-button-prev:hover {
+            background: var(--secondary-color);
+            color: var(--white);
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        /* Swiper Pagination */
+        .recipes-slider .swiper-pagination {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            margin: 0 auto;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .recipes-slider .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        .recipes-slider .swiper-pagination-bullet-active {
+            opacity: 1;
+            background: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .recipes-slider .swiper-slide {
+                width: 250px;
+            }
+            
+            .recipes-section h2 {
+                font-size: 1.8em;
+            }
+            
+            .recipe-content h3 {
+                font-size: 1.2em;
+            }
+        }
+
+        /* About Section Styles */
+        #about {
+            background-color: #F1F8E9;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-top: 2.5rem;
+        }
+
+        #about h2 {
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        /* Contact Section Styles */
+        .contact-section {
+            padding: 2.5rem 0;
+            background-color: #F1F8E9;
+            border-radius: 8px;
+            margin-top: 2.5rem;
+        }
+
+        .contact-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-title h2 {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .contact-info {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            background-color: #F1F8E9;
+        }
+
+        .contact-item svg {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .contact-item h3 {
+            font-size: 1.2em;
+            margin-bottom: 0.5rem;
+            color: #2E7D32;
+        }
+
+        .contact-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-item a:hover {
+            color: #2E7D32;
+        }
+
+        .contact-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background-color: #2E7D32;
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 3rem 0 0;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col {
+            padding: 0 1rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2em;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-slogan {
+            font-size: 1.2em;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .footer-desc {
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social a {
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-contact {
+            margin-top: 1.5rem;
+        }
+
+        .footer-contact-row {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-contact-label {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-right: 0.5rem;
+        }
+
+        .footer-contact-content {
+            color: #ddd;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Updated Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 0;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 360px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), #2E7D32);
+            color: white;
+            text-align: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 1.2rem;
+        }
+
+        .close {
+            position: absolute;
+            right: 0.8rem;
+            top: 0.8rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: white;
+            z-index: 1;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.6rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #666;
+            position: relative;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.6rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .social-login {
+            margin-bottom: 1.2rem;
+        }
+
+        .social-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .social-login-btn:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+        .social-login-btn img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1rem 0;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider span {
+            padding: 0 0.6rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(58, 125, 68, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            background-color: #2E7D32;
+            transform: translateY(-1px);
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-top: 0.6rem;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin: 0.8rem 0;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+        }
+
+        .terms-checkbox a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 95%;
+                margin: 0;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* User Dropdown Styles */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 1000;
+            margin-top: 0.5rem;
+            animation: dropdownFadeIn 0.2s ease;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-dropdown-content a {
+            color: #333;
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .user-dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .user-dropdown-content a:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .user-dropdown-content a:last-child {
+            border-radius: 0 0 8px 8px;
+            color: #dc3545;
+        }
+
+        .user-dropdown-content a svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .user-dropdown-content a:last-child svg {
+            color: #dc3545;
+        }
+
+        .user-dropdown.show .user-dropdown-content {
+            display: block;
+        }
+
+        .user-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .login-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Terms and Privacy Policy Styles */
+        .terms-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .terms-container h1 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-family: 'PlayfairDisplay', serif;
+            font-weight: 600;
+        }
+
+        .terms-section {
+            margin-bottom: 3rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .terms-section h2 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .terms-content h3 {
+            color: #2E7D32;
+            font-size: 1.4em;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .terms-content p {
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .terms-content ul {
+            list-style-type: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-content ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .terms-content ul li:before {
+            content: "•";
+            color: var(--secondary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .terms-container {
+                padding: 1rem;
+            }
+
+            .terms-section {
+                padding: 1.5rem;
+            }
+
+            .terms-container h1 {
+                font-size: 2em;
+            }
+
+            .terms-section h2 {
+                font-size: 1.5em;
+            }
+
+            .terms-content h3 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+
+    <!-- Thêm font Lexend -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="picture/NutriPlan.png" alt="NutriPlan Logo" id="logo-img"> 
+            <div class="site-title">NutriPlan</div>
+            <div class="tagline">Thực Đơn Sống Khỏe</div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+            <li><a href="index.html">Trang Chủ</a></li>
+            <li><a href="calculator.html">Tính CALO & TDEE & BMR</a></li>
+            <li><a href="FoodandRecipes.html">Món Ăn & Công Thức</a></li>
+            <li><a href="about.html">Giới Thiệu</a></li>
+            <li><a href="contact.html">Liên Hệ</a></li>
+            <li><a href="terms.html">Điều khoản & Bảo mật</a></li>
+        </ul>
+            <div class="nav-login">
+                <div class="user-dropdown">
+                    <a href="#" id="loginBtn" class="login-btn">Đăng Nhập</a>
+                    <div class="user-dropdown-content">
+                        <a href="account.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Tài khoản
+                        </a>
+                        <a href="#" id="logoutBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="terms-container">
+            <h1>Điều Khoản Sử Dụng & Chính Sách Bảo Mật</h1>
+            
+            <section class="terms-section">
+                <h2>1. Điều Khoản Sử Dụng</h2>
+                <div class="terms-content">
+                    <h3>1.1. Chấp Nhận Điều Khoản</h3>
+                    <p>Bằng việc truy cập và sử dụng NutriPlan, bạn đồng ý tuân thủ và chịu ràng buộc bởi các điều khoản và điều kiện sau đây. Nếu bạn không đồng ý với bất kỳ phần nào của các điều khoản này, vui lòng không sử dụng dịch vụ của chúng tôi.</p>
+
+                    <h3>1.2. Tài Khoản Người Dùng</h3>
+                    <p>Khi đăng ký tài khoản, bạn phải cung cấp thông tin chính xác và đầy đủ. Bạn chịu trách nhiệm bảo mật mật khẩu và tài khoản của mình. NutriPlan không chịu trách nhiệm về bất kỳ hoạt động nào xảy ra dưới tài khoản của bạn.</p>
+
+                    <h3>1.3. Sử Dụng Dịch Vụ</h3>
+                    <p>Bạn đồng ý sử dụng NutriPlan chỉ cho mục đích hợp pháp và phù hợp với các điều khoản này. Bạn không được phép:</p>
+                    <ul>
+                        <li>Sử dụng dịch vụ cho mục đích bất hợp pháp</li>
+                        <li>Vi phạm quyền sở hữu trí tuệ của người khác</li>
+                        <li>Phát tán virus hoặc mã độc hại</li>
+                        <li>Thu thập thông tin người dùng khác mà không được phép</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="terms-section">
+                <h2>2. Chính Sách Bảo Mật</h2>
+                <div class="terms-content">
+                    <h3>2.1. Thu Thập Thông Tin</h3>
+                    <p>Chúng tôi thu thập các thông tin sau:</p>
+                    <ul>
+                        <li>Thông tin cá nhân (tên, email, số điện thoại)</li>
+                        <li>Thông tin sức khỏe và dinh dưỡng</li>
+                        <li>Dữ liệu sử dụng dịch vụ</li>
+                        <li>Thông tin thiết bị và trình duyệt</li>
+                    </ul>
+
+                    <h3>2.2. Sử Dụng Thông Tin</h3>
+                    <p>Chúng tôi sử dụng thông tin của bạn để:</p>
+                    <ul>
+                        <li>Cung cấp và cải thiện dịch vụ</li>
+                        <li>Gửi thông báo và cập nhật</li>
+                        <li>Phân tích và tối ưu hóa trải nghiệm người dùng</li>
+                        <li>Bảo mật và ngăn chặn gian lận</li>
+                    </ul>
+
+                    <h3>2.3. Bảo Mật Thông Tin</h3>
+                    <p>Chúng tôi cam kết bảo vệ thông tin của bạn bằng cách:</p>
+                    <ul>
+                        <li>Sử dụng mã hóa dữ liệu</li>
+                        <li>Giới hạn quyền truy cập</li>
+                        <li>Thường xuyên cập nhật biện pháp bảo mật</li>
+                        <li>Tuân thủ các quy định về bảo mật dữ liệu</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="terms-section">
+                <h2>3. Quyền Lợi Người Dùng</h2>
+                <div class="terms-content">
+                    <h3>3.1. Quyền Truy Cập và Kiểm Soát</h3>
+                    <p>Bạn có quyền:</p>
+                    <ul>
+                        <li>Truy cập và chỉnh sửa thông tin cá nhân</li>
+                        <li>Yêu cầu xóa tài khoản</li>
+                        <li>Chọn không nhận thông báo</li>
+                        <li>Khiếu nại về việc xử lý dữ liệu</li>
+                    </ul>
+
+                    <h3>3.2. Hỗ Trợ và Liên Hệ</h3>
+                    <p>Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào về điều khoản sử dụng và chính sách bảo mật, vui lòng liên hệ với chúng tôi qua:</p>
+                    <ul>
+                        <li>Email: nutriplan@gmail.com</li>
+                        <li>Hotline: 0888 192 049</li>
+                        <li>Địa chỉ: 168 Nguyễn Văn Cừ nối dài, An Bình, Ninh Kiều, Cần Thơ</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Chào mừng đến với NutriPlan</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-tabs">
+                    <button class="tab-btn active" data-tab="login">Đăng Nhập</button>
+                    <button class="tab-btn" data-tab="register">Đăng Ký</button>
+                </div>
+                
+                <div id="login" class="tab-content active">
+                    <div class="social-login">
+                        <button class="social-login-btn" id="googleLogin">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                            Đăng nhập với Google
+                        </button>
+                    </div>
+                    <div class="divider">
+                        <span>hoặc</span>
+                    </div>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Mật khẩu</label>
+                            <input type="password" id="loginPassword" required placeholder="Nhập mật khẩu của bạn">
+                        </div>
+                        <button type="submit" class="submit-btn">Đăng Nhập</button>
+                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                    </form>
+                </div>
+
+                <div id="register" class="tab-content">
+                    <div class="social-login">
+                        <button class="social-login-btn" id="googleRegister">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                            Đăng ký với Google
+                        </button>
+                    </div>
+                    <div class="divider">
+                        <span>hoặc</span>
+                    </div>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerName">Họ và tên</label>
+                            <input type="text" id="registerName" required placeholder="Nhập họ và tên của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email</label>
+                            <input type="email" id="registerEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Mật khẩu</label>
+                            <input type="password" id="registerPassword" required placeholder="Nhập mật khẩu của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Xác nhận mật khẩu</label>
+                            <input type="password" id="confirmPassword" required placeholder="Nhập lại mật khẩu">
+                        </div>
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a></label>
+                        </div>
+                        <button type="submit" class="submit-btn">Đăng Ký</button>
+                    </form>
+                </div>
+
+                <div id="forgotPassword" class="tab-content">
+                    <h2 style="font-size: 1.3rem; margin-bottom: 1rem;">Quên Mật Khẩu</h2>
+                    <p style="margin-bottom: 1.2rem; color: #666; font-size: 0.9rem;">Nhập email của bạn để nhận link đặt lại mật khẩu</p>
+                    <form id="forgotPasswordForm">
+                        <div class="form-group">
+                            <label for="forgotEmail">Email</label>
+                            <input type="email" id="forgotEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <button type="submit" class="submit-btn">Gửi Link Đặt Lại Mật Khẩu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col about">
+                <img src="picture/NutriPlan.png" alt="NutriPlan Logo" class="footer-logo">
+                <div class="footer-brand">NutriPlan</div>
+                <div class="footer-slogan">Thực Đơn Sống Khỏe</div>
+                <p class="footer-desc">Đồng hành cùng bạn xây dựng thực đơn khoa học, sống khỏe mỗi ngày.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Về NutriPlan</h4>
+                <ul>
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="about.html">Giới Thiệu</a></li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Sức Khỏe</h4>
+                <ul>
+                    <li><a href="calculator.html">Tính Calo & TDEE</a></li>
+                    <li><a href="FoodandRecipes.html">Món Ăn & Công Thức</a></li>
+                    
+                    <li><a href="account.html">Tài Khoản</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Hỗ Trợ</h4>
+                <ul>
+                    <li><a href="contact.html">Liên Hệ</a></li>
+                    <li><a href="terms.html">Chính Sách Bảo Mật</a></li>
+                    <li><a href="terms.html">Điều Khoản Sử Dụng</a></li>
+                    
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kết Nối</h4>
+                
+                <div class="footer-contact">
+                    <div class="footer-contact-row"><span class="footer-contact-label">Hotline:</span> <span class="footer-contact-content"><a href="tel:0888192049">0888 192 049</a></span></div>
+                    <div class="footer-contact-row"><span class="footer-contact-label">Email:</span> <span class="footer-contact-content"><a class="footer-email" href="mailto:nutriplan@gmail.com">nutriplan@gmail.com</a></span></div>
+                    <div class="footer-contact-row"><span class="footer-contact-label">Địa chỉ:</span> <span class="footer-contact-content">168 Nguyễn Văn Cừ nối dài,An Bình,Ninh Kiều,Cần Thơ</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 NutriPlan. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDi1RRzsP4TtZ1R-o9Tst5UX1t1C0BI2pA",
+            authDomain: "nutriplan-f335e.firebaseapp.com",
+            databaseURL: "https://nutriplan-f335e-default-rtdb.firebaseio.com",
+            projectId: "nutriplan-f335e",
+            storageBucket: "nutriplan-f335e.firebasestorage.app",
+            messagingSenderId: "594370805250",
+            appId: "1:594370805250:web:4b54c8e3e88b152858b11b",
+            measurementId: "G-5FT11ZN85P"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DOM SELECTORS ---
+            const modal = document.getElementById('loginModal');
+            const loginBtn = document.getElementById('loginBtn');
+            const closeBtn = document.querySelector('.close');
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const forgotPasswordLink = document.querySelector('.forgot-password');
+            const userDropdown = document.querySelector('.user-dropdown');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const contactForm = document.querySelector('.contact-form form');
+            const googleLoginBtn = document.getElementById('googleLogin');
+            const googleRegisterBtn = document.getElementById('googleRegister');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+            // Swiper/slider selectors
+            const scrollLeftBtn = document.querySelector('.scroll-btn:first-child');
+            const scrollRightBtn = document.querySelector('.scroll-btn:last-child');
+            const recipesGrid = document.querySelector('.recipes-grid');
+            const recipesSection = document.querySelector('.recipes-section');
+            const recipeCards = document.querySelectorAll('.recipe-card');
+
+            // --- COMMON FUNCTIONS ---
+            function showSuccessAlert(title, text) {
+                Swal.fire({ title, text, icon: 'success', timer: 1500, showConfirmButton: false });
+            }
+            function showErrorAlert(title, text) {
+                Swal.fire({ title, text, icon: 'error' });
+            }
+            function showLoadingAlert(text = 'Vui lòng đợi trong giây lát') {
+                Swal.fire({ title: 'Đang xử lý...', text, allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+            }
+
+            // --- HERO SLIDER ---
+            const slides = document.querySelectorAll('.hero-slide');
+            const prevBtn = document.querySelector('.hero-nav-left');
+            const nextBtn = document.querySelector('.hero-nav-right');
+            let currentSlide = 0;
+            let slideInterval;
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[index].classList.add('active');
+            }
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+            function startSlideShow() { slideInterval = setInterval(nextSlide, 5000); }
+            function stopSlideShow() { clearInterval(slideInterval); }
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => { prevSlide(); stopSlideShow(); startSlideShow(); });
+                nextBtn.addEventListener('click', () => { nextSlide(); stopSlideShow(); startSlideShow(); });
+            }
+            if (slides.length) startSlideShow();
+
+            // --- CONTACT FORM ---
+            if (contactForm) {
+                // Auto-fill form when user is logged in
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        document.getElementById('name').value = user.displayName || '';
+                        document.getElementById('email').value = user.email || '';
+                    }
+                });
+
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const user = firebase.auth().currentUser;
+                    if (!user) {
+                        showErrorAlert('Lỗi!', 'Vui lòng đăng nhập để gửi liên hệ');
+                        return;
+                    }
+
+                    const contactData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value,
+                        userId: user.uid,
+                        createdAt: new Date().toISOString(),
+                        status: 'pending'
+                    };
+
+                    showLoadingAlert('Đang gửi tin nhắn...');
+
+                    // Save to Firebase
+                    firebase.database().ref('contacts').push(contactData)
+                        .then(() => {
+                            showSuccessAlert('Thành công!', 'Tin nhắn của bạn đã được gửi. Chúng tôi sẽ liên hệ lại sớm nhất có thể.');
+                            contactForm.reset();
+                        })
+                        .catch((error) => {
+                            showErrorAlert('Lỗi!', 'Không thể gửi tin nhắn: ' + error.message);
+                        });
+                });
+            }
+
+            // --- MODAL & DROPDOWN ---
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (firebase.auth().currentUser) {
+                    userDropdown.classList.toggle('show');
+                } else {
+                    modal.classList.add('show');
+                }
+            });
+            closeBtn.addEventListener('click', function() { modal.classList.remove('show'); });
+            window.addEventListener('click', function(e) { if (e.target === modal) modal.classList.remove('show'); });
+            document.addEventListener('click', function(e) { if (!userDropdown.contains(e.target)) userDropdown.classList.remove('show'); });
+
+            // --- TABS ---
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId) content.classList.add('active');
+                    });
+                });
+            });
+            forgotPasswordLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById('forgotPassword').classList.add('active');
+            });
+
+            // --- AUTH FORMS ---
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                if (!email || !password) return showErrorAlert('Lỗi!', 'Vui lòng điền đầy đủ thông tin');
+                firebase.auth().signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        return firebase.database().ref('users/' + user.uid).update({ lastLogin: new Date().toISOString() })
+                            .then(() => {
+                                showSuccessAlert('Thành công!', 'Đăng nhập thành công');
+                                modal.classList.remove('show');
+                                updateLoginState(user);
+                            });
+                    })
+                    .catch((error) => showErrorAlert('Lỗi!', error.message));
+            });
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const name = document.getElementById('registerName').value;
+                const terms = document.getElementById('terms').checked;
+                if (!email || !password || !confirmPassword || !name) return showErrorAlert('Lỗi!', 'Vui lòng điền đầy đủ thông tin');
+                if (password !== confirmPassword) return showErrorAlert('Lỗi!', 'Mật khẩu xác nhận không khớp');
+                if (!terms) return showErrorAlert('Lỗi!', 'Vui lòng đồng ý với điều khoản sử dụng');
+                showLoadingAlert();
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        return user.updateProfile({ displayName: name }).then(() => {
+                            const userData = {
+                                uid: user.uid,
+                                email: user.email,
+                                displayName: name,
+                                photoURL: user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png',
+                                lastLogin: new Date().toISOString(),
+                                provider: 'password',
+                                createdAt: new Date().toISOString()
+                            };
+                            return firebase.database().ref('users/' + user.uid).set(userData)
+                                .then(() => firebase.auth().signInWithEmailAndPassword(email, password));
+                        });
+                    })
+                    .then(() => {
+                        showSuccessAlert('Thành công!', 'Đăng ký và đăng nhập thành công');
+                        modal.classList.remove('show');
+                        updateLoginState(firebase.auth().currentUser);
+                    })
+                    .catch((error) => {
+                        let errorMessage = 'Có lỗi xảy ra khi đăng ký';
+                        switch (error.code) {
+                            case 'auth/email-already-in-use': errorMessage = 'Email này đã được sử dụng. Vui lòng sử dụng email khác hoặc đăng nhập'; break;
+                            case 'auth/invalid-email': errorMessage = 'Email không hợp lệ'; break;
+                            case 'auth/weak-password': errorMessage = 'Mật khẩu quá yếu. Vui lòng sử dụng mật khẩu mạnh hơn'; break;
+                            default: errorMessage = error.message;
+                        }
+                        showErrorAlert('Lỗi!', errorMessage);
+                    });
+            });
+            forgotPasswordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('forgotEmail').value;
+                if (!email) return showErrorAlert('Lỗi!', 'Vui lòng nhập email của bạn');
+                firebase.auth().sendPasswordResetEmail(email)
+                    .then(() => {
+                        showSuccessAlert('Thành công!', 'Link đặt lại mật khẩu đã được gửi đến email của bạn');
+                        modal.classList.remove('show');
+                    })
+                    .catch((error) => showErrorAlert('Lỗi!', 'Gửi email thất bại: ' + error.message));
+            });
+
+            // --- GOOGLE AUTH ---
+            const googleProvider = new firebase.auth.GoogleAuthProvider();
+            googleProvider.setCustomParameters({ prompt: 'select_account' });
+            function handleGoogleAuth() {
+                showLoadingAlert();
+                firebase.auth().signInWithPopup(googleProvider)
+                    .then((result) => {
+                        const user = result.user;
+                        return firebase.database().ref('users/' + user.uid).once('value')
+                            .then((snapshot) => {
+                                if (!snapshot.exists()) {
+                                    const userData = {
+                                        uid: user.uid,
+                                        email: user.email,
+                                        displayName: user.displayName,
+                                        photoURL: user.photoURL,
+                                        lastLogin: new Date().toISOString(),
+                                        provider: 'google.com',
+                                        createdAt: new Date().toISOString()
+                                    };
+                                    return firebase.database().ref('users/' + user.uid).set(userData);
+                                } else {
+                                    return firebase.database().ref('users/' + user.uid).update({ lastLogin: new Date().toISOString() });
+                                }
+                            })
+                            .then(() => {
+                                showSuccessAlert('Thành công!', 'Đăng nhập thành công');
+                                modal.classList.remove('show');
+                                updateLoginState(user);
+                            });
+                    })
+                    .catch((error) => {
+                        let errorMessage = 'Có lỗi xảy ra khi đăng nhập';
+                        switch (error.code) {
+                            case 'auth/popup-closed-by-user': errorMessage = 'Đăng nhập bị hủy. Vui lòng thử lại'; break;
+                            case 'auth/popup-blocked': errorMessage = 'Trình duyệt đã chặn cửa sổ popup. Vui lòng cho phép popup và thử lại'; break;
+                            case 'auth/cancelled-popup-request': errorMessage = 'Đăng nhập bị hủy. Vui lòng thử lại'; break;
+                            default: errorMessage = error.message;
+                        }
+                        showErrorAlert('Lỗi!', errorMessage);
+                    });
+            }
+            googleLoginBtn.addEventListener('click', handleGoogleAuth);
+            googleRegisterBtn.addEventListener('click', handleGoogleAuth);
+
+            // --- UPDATE LOGIN STATE ---
+            function updateLoginState(user) {
+                if (user) {
+                    let displayName;
+                    const photoURL = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                    if (user.providerData && user.providerData[0]) {
+                        const provider = user.providerData[0].providerId;
+                        if (provider === 'password') displayName = user.email.split('@')[0];
+                        else displayName = user.displayName || user.email.split('@')[0];
+                    } else {
+                        displayName = user.displayName || user.email.split('@')[0] || 'Tài khoản';
+                    }
+                    const formattedName = displayName.length > 5 ? displayName.substring(0, 5) + '...' : displayName;
+                    loginBtn.innerHTML = `<img src="${photoURL}" alt="Avatar" class="user-avatar"><span>${formattedName}</span>`;
+                    loginBtn.href = '#';
+                    const userData = {
+                        uid: user.uid,
+                        email: user.email,
+                        displayName: user.displayName || displayName,
+                        photoURL: photoURL,
+                        lastLogin: new Date().toISOString(),
+                        provider: user.providerData[0]?.providerId || 'unknown'
+                    };
+                    firebase.database().ref('users/' + user.uid).update(userData)
+                        .then(() => { /* console.log('User data saved successfully'); */ })
+                        .catch((error) => { /* console.error('Error saving user data:', error); */ });
+                } else {
+                    loginBtn.innerHTML = 'Đăng Nhập';
+                    loginBtn.href = '#';
+                }
+            }
+            firebase.auth().onAuthStateChanged(function(user) {
+                updateLoginState(user);
+                if (user) modal.classList.remove('show');
+            });
+
+            // --- LOGOUT ---
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Đăng xuất?',
+                    text: "Bạn có chắc chắn muốn đăng xuất?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đăng xuất',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        firebase.auth().signOut().then(() => {
+                            showSuccessAlert('Đã đăng xuất!', 'Bạn đã đăng xuất thành công.');
+                            userDropdown.classList.remove('show');
+                        }).catch(() => {
+                            showErrorAlert('Lỗi!', 'Có lỗi xảy ra khi đăng xuất.');
+                        });
+                    }
+                });
+            });
+
+            // --- SWIPER ---
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('.recipes-slider', {
+                    slidesPerView: 3,
+                    spaceBetween: 24,
+                    loop: true,
+                    centeredSlides: false,
+                    autoplay: { delay: 3500, disableOnInteraction: false },
+                    pagination: { el: '.swiper-pagination', clickable: true },
+                    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                    breakpoints: {
+                        320: { slidesPerView: 1.1, spaceBetween: 10 },
+                        600: { slidesPerView: 1.5, spaceBetween: 16 },
+                        900: { slidesPerView: 2, spaceBetween: 20 },
+                        1200: { slidesPerView: 3, spaceBetween: 24 }
+                    }
+                });
+            }
+
+            // --- ANIMATION ON SCROLL ---
+            function isInViewport(element) {
+                if (!element) return false;
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.bottom >= 0
+                );
+            }
+            function handleScrollAnimation() {
+                if (recipesSection && isInViewport(recipesSection)) {
+                    recipesSection.classList.add('visible');
+                    recipeCards.forEach((card, index) => {
+                        setTimeout(() => { card.classList.add('visible'); }, index * 200);
+                    });
+                }
+            }
+            window.addEventListener('scroll', handleScrollAnimation);
+            handleScrollAnimation();
+
+            // --- SCROLL BUTTONS ---
+            if (scrollLeftBtn && scrollRightBtn && recipesGrid) {
+                scrollLeftBtn.addEventListener('click', () => {
+                    recipesGrid.scrollBy({ left: -300, behavior: 'smooth' });
+                });
+                scrollRightBtn.addEventListener('click', () => {
+                    recipesGrid.scrollBy({ left: 300, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
