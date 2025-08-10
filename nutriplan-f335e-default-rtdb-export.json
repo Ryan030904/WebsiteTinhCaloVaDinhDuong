@@ -1,0 +1,756 @@
+{
+  "contacts": {
+    "-OVC1DSnm2H_Y8v79J7X": {
+      "createdAt": "2025-07-15T07:42:24.173Z",
+      "email": "nhuquynh1357.vnh@gmail.com",
+      "message": "món ăn chưa đa dạng",
+      "name": "Như Quỳnh",
+      "phone": "0888192049",
+      "status": "",
+      "subject": "feedback",
+      "updatedAt": "2025-07-15T07:46:12.467Z",
+      "userId": "K3O5UnDcTAgPB89F8KfhtRMuSQv1"
+    }
+  },
+  "recipes": {
+    "-ORoyaKOxjeq5lRhw-8z": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T08:48:34.715Z",
+      "description": "Bún bò Huế là món ăn đặc sản miền Trung, nổi bật với nước dùng đậm đà từ xương bò, sả và mắm ruốc, kết hợp với bún sợi to và thịt bò mềm thơm.",
+      "imageUrl": "https://i2.ex-cdn.com/crystalbay.com/files/content/2024/08/15/bun-bo-hue-2-0933.jpg",
+      "ingredients": [
+        "Xương bò",
+        "Chân giò heo",
+        "Thịt bắp bò",
+        "Bún sợi to",
+        "Sả cây",
+        "Mắm ruốc Huế",
+        "Hành tím",
+        "Ớt bột",
+        "Dầu điều",
+        "Rau thơm (giá, rau quế, bắp chuối)",
+        "Muối, đường, nước mắm"
+      ],
+      "instructions": [
+        "Hầm xương bò và chân giò để lấy nước dùng trong 2 giờ.",
+        "Làm sạch và luộc sơ thịt bắp bò, chân giò.",
+        "Xào sả, hành tím, ớt bột với dầu điều rồi cho vào nồi nước dùng.",
+        "Thêm mắm ruốc đã hòa tan và lọc vào nồi nước.",
+        "Nêm nếm nước dùng với muối, đường, nước mắm cho vừa miệng.",
+        "Trụng bún, cho vào tô cùng thịt và rau sống.",
+        "Chan nước dùng nóng lên, thêm hành lá và rau sống."
+      ],
+      "name": "Bún bò Huế",
+      "nutrition": {
+        "calories": 550,
+        "carbs": 45,
+        "fat": 22,
+        "protein": 35
+      },
+      "updatedAt": "2025-06-03T08:48:34.715Z"
+    },
+    "-ORoz4_8tx5hJPFSGGPq": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T08:50:42.700Z",
+      "description": "Bún riêu là món ăn dân dã nổi tiếng của miền Bắc Việt Nam với hương vị chua thanh, nước dùng ngọt từ cua đồng, kết hợp với riêu cua, đậu hũ chiên và cà chua.",
+      "imageUrl": "https://i.ytimg.com/vi/C1P1Cw9J1-I/maxresdefault.jpg",
+      "ingredients": [
+        "Cua đồng",
+        "Cà chua",
+        "Đậu hũ chiên",
+        "Hành tím",
+        "Hành lá, rau răm",
+        "Mắm tôm",
+        "Bún tươi",
+        "Nước mắm, muối, đường, hạt nêm",
+        "Giấm bỗng (hoặc me chua)",
+        "Trứng gà (tùy chọn để làm riêu cua đặc hơn)"
+      ],
+      "instructions": [
+        "Làm sạch cua đồng, xay nhuyễn, lọc lấy nước cua.",
+        "Bắc nồi nước cua lên bếp, đun nhỏ lửa đến khi riêu nổi lên.",
+        "Xào cà chua với hành tím cho mềm rồi cho vào nồi nước cua.",
+        "Nêm mắm tôm, muối, giấm bỗng cho vừa vị chua thanh.",
+        "Cho đậu hũ chiên vào nồi, nấu thêm 5–10 phút.",
+        "Trụng bún, cho vào tô cùng riêu, đậu hũ và nước dùng.",
+        "Thêm hành lá, rau răm, ớt và dùng nóng với rau sống."
+      ],
+      "name": "Bún riêu",
+      "nutrition": {
+        "calories": 480,
+        "carbs": 40,
+        "fat": 20,
+        "protein": 28
+      },
+      "updatedAt": "2025-06-03T08:50:42.700Z"
+    },
+    "-ORp02C_O-GmgpHJo8rq": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T08:59:17.304Z",
+      "description": "Gỏi cuốn là món ăn nhẹ truyền thống của Việt Nam với bánh tráng cuốn tôm, thịt, bún và rau sống, ăn kèm nước chấm đậm đà như nước mắm chua ngọt hoặc tương đậu.",
+      "imageUrl": "https://heyyofoods.com/wp-content/uploads/2024/03/3-4.jpg",
+      "ingredients": [
+        "Bánh tráng",
+        "Tôm luộc bóc vỏ",
+        "Thịt ba chỉ luộc",
+        "Bún tươi",
+        "Xà lách",
+        "Rau thơm (rau mùi, húng quế)",
+        "Hẹ hoặc lá hẹ",
+        "Dưa leo cắt sợi",
+        "Cà rốt cắt sợi",
+        "Nước mắm, đường, tỏi, ớt (làm nước chấm)",
+        "Tương đậu, đậu phộng (nếu chấm tương)"
+      ],
+      "instructions": [
+        "Luộc tôm và thịt ba chỉ, thái lát mỏng.",
+        "Rửa sạch rau sống, để ráo.",
+        "Trụng bún tươi nếu cần, để nguội.",
+        "Làm nước chấm: pha nước mắm chua ngọt hoặc tương đậu tùy khẩu vị.",
+        "Nhúng bánh tráng qua nước cho mềm.",
+        "Xếp lần lượt rau, bún, thịt, tôm, cuộn chặt tay.",
+        "Dọn ra dĩa, ăn kèm với nước chấm."
+      ],
+      "name": "Gỏi cuốn",
+      "nutrition": {
+        "calories": 320,
+        "carbs": 28,
+        "fat": 12,
+        "protein": 18
+      },
+      "updatedAt": "2025-06-03T08:59:17.304Z"
+    },
+    "-ORp0itNkETJQoPMsO1p": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:02:16.226Z",
+      "description": "Canh khoai mỡ là món canh thanh nhẹ, dễ ăn với vị ngọt từ khoai mỡ, kết hợp với rau củ và thường có chút nước cốt dừa tạo vị béo ngậy, rất thích hợp cho bữa ăn hàng ngày.",
+      "imageUrl": "https://file.hstatic.net/200000721249/file/canh_khoai_mo_nau_tom_tuoi_cafb01ad3e3d492682cd13ca385e0f38.jpg",
+      "ingredients": [
+        "Khoai mỡ (khoai lang tím)",
+        "Cà rốt",
+        "Hành tím",
+        "Tôm tươi hoặc thịt băm (tuỳ chọn)",
+        "Nước cốt dừa (tuỳ chọn)",
+        "Rau mùi, hành lá",
+        "Muối, đường, nước mắm"
+      ],
+      "instructions": [
+        "Gọt vỏ, cắt khoai mỡ thành miếng vừa ăn.",
+        "Hành tím băm nhỏ, phi thơm với dầu.",
+        "Nếu dùng tôm hoặc thịt, xào sơ với hành phi.",
+        "Đổ nước vào nồi, cho khoai mỡ và cà rốt vào nấu chín mềm.",
+        "Nêm muối, đường, nước mắm vừa ăn.",
+        "Cho nước cốt dừa vào, khuấy đều và đun thêm vài phút.",
+        "Rắc hành lá, rau mùi lên trên trước khi tắt bếp."
+      ],
+      "name": "Canh khoai mỡ",
+      "nutrition": {
+        "calories": 250,
+        "carbs": 35,
+        "fat": 8,
+        "protein": 12
+      },
+      "updatedAt": "2025-06-03T09:02:16.226Z"
+    },
+    "-ORp1PPtOIshNIyIT13C": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:05:14.499Z",
+      "description": "Mì Quảng là món đặc sản miền Trung nổi bật với sợi mì vàng óng, nước dùng đậm đà, thường ăn kèm với thịt heo, tôm, rau sống và bánh tráng nướng giòn.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/02/CookProduct/1200-1200x676-16.jpg",
+      "ingredients": [
+        "Mì Quảng (sợi mì vàng)",
+        "Thịt heo thái lát",
+        "Tôm tươi",
+        "Hành tím",
+        "Gừng",
+        "Nước cốt dừa",
+        "Nước dùng xương heo",
+        "Đậu phộng rang giã dập",
+        "Bánh tráng mè nướng",
+        "Rau sống (rau đắng, húng quế, giá, xà lách)",
+        "Ớt, muối, đường, nước mắm"
+      ],
+      "instructions": [
+        "Ướp thịt heo với hành tím, gừng, muối và nước mắm.",
+        "Xào thịt và tôm với ít dầu đến chín.",
+        "Đun nước dùng từ xương heo, cho thêm nước cốt dừa và nêm nếm vừa ăn.",
+        "Trụng mì Quảng trong nước sôi đến khi mềm.",
+        "Cho mì vào tô, xếp thịt, tôm lên trên.",
+        "Chan nước dùng nóng vừa đủ, rắc đậu phộng giã dập.",
+        "Dọn kèm rau sống và bánh tráng mè nướng."
+      ],
+      "name": "Mì Quảng",
+      "nutrition": {
+        "calories": 600,
+        "carbs": 50,
+        "fat": 25,
+        "protein": 40
+      },
+      "updatedAt": "2025-06-03T09:05:14.499Z"
+    },
+    "-ORp21OGksGsBp_7MJ2o": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:07:58.236Z",
+      "description": "Bún đậu mắm tôm là món ăn truyền thống miền Bắc, với bún lá mềm, đậu phụ rán giòn, rau sống tươi ngon, ăn kèm mắm tôm đặc trưng có mùi thơm nồng, rất hấp dẫn và đậm đà.",
+      "imageUrl": "https://vietair.com.vn/Media/Images/bun-dau-mam-tom-can-tho-5.jpg",
+      "ingredients": [
+        "Bún lá",
+        "Đậu phụ",
+        "Mắm tôm",
+        "Chanh, tỏi, ớt",
+        "Thịt chân giò luộc (tùy chọn)",
+        "Dưa leo",
+        "Rau kinh giới, rau mùi, rau tía tô",
+        "Đậu xanh hấp"
+      ],
+      "instructions": [
+        "Rán đậu phụ vàng giòn, để ráo dầu.",
+        "Luộc chân giò, thái lát vừa ăn.",
+        "Pha mắm tôm với chanh, tỏi, ớt, đánh đều đến khi nổi bọt.",
+        "Rửa sạch rau sống và dưa leo, cắt khúc vừa ăn.",
+        "Trình bày bún, đậu, thịt, rau ra đĩa.",
+        "Ăn kèm với mắm tôm chấm đậm đà."
+      ],
+      "name": "Bún đậu mắm tôm",
+      "nutrition": {
+        "calories": 480,
+        "carbs": 40,
+        "fat": 18,
+        "protein": 25
+      },
+      "updatedAt": "2025-06-03T09:07:58.236Z"
+    },
+    "-ORp2ioXcfd0TBP1hKrG": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:11:00.205Z",
+      "description": "Canh chua cá lóc là món canh đặc trưng miền Nam với vị chua thanh từ me và dứa, hương thơm từ ngò om, cùng thịt cá lóc dai ngọt, rất thích hợp cho những bữa ăn gia đình.",
+      "imageUrl": "https://i-giadinh.vnecdn.net/2023/04/25/Thanh-pham-1-1-7239-1682395675.jpg",
+      "ingredients": [
+        "Cá lóc (cá quả)",
+        "Me chua hoặc me tươi",
+        "Dứa (thơm)",
+        "Cá lóc (cá quả)",
+        "Me chua hoặc me tươi",
+        "Dứa (thơm)",
+        "Cà chua",
+        "Giá đỗ",
+        "Hành tím",
+        "Tỏi",
+        "Ngò om (ngò gai)",
+        "Rau ngổ (tía tô, nếu thích)",
+        "Ớt, muối, đường, nước mắm"
+      ],
+      "instructions": [
+        "Làm sạch cá lóc, chặt khúc vừa ăn.",
+        "Đun sôi nước, cho me hoặc nước me vào nấu lấy vị chua.",
+        "Cho cá lóc vào nồi, nấu đến khi cá chín mềm.",
+        "Thêm dứa, cà chua, giá đỗ vào nấu thêm vài phút.",
+        "Nêm muối, đường, nước mắm vừa ăn.",
+        "Cho hành tím phi thơm và tỏi vào nồi, khuấy đều.",
+        "Thêm ngò om và rau ngổ trước khi tắt bếp."
+      ],
+      "name": "Canh chua cá lóc",
+      "nutrition": {
+        "calories": 350,
+        "carbs": 20,
+        "fat": 10,
+        "protein": 30
+      },
+      "updatedAt": "2025-06-03T09:11:00.205Z"
+    },
+    "-ORp3IMYacQjWEDFm8jr": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:13:29.902Z",
+      "description": "Canh rau ngót nấu thịt bằm là món canh thanh mát, dễ ăn, bổ dưỡng với vị ngọt tự nhiên từ rau ngót và thịt bằm mềm, thích hợp cho bữa ăn gia đình hàng ngày.",
+      "imageUrl": "https://afamilycdn.com/150157425591193600/2022/7/16/canh-rau-ngot-thit-bam-16x9-165796398802832610224.jpg",
+      "ingredients": [
+        "Rau ngót tươi",
+        "Thịt heo bằm (thịt xay)",
+        "Hành tím",
+        "Tỏi",
+        "Hành lá",
+        "Muối, nước mắm, tiêu"
+      ],
+      "instructions": [
+        "Rửa sạch rau ngót, để ráo, thái nhỏ hoặc để nguyên lá tùy thích.",
+        "Phi thơm hành tím và tỏi băm với dầu ăn.",
+        "Cho thịt bằm vào xào sơ đến khi săn lại.",
+        "Đổ nước vào nồi, đun sôi rồi cho thịt bằm đã xào vào.",
+        "Nấu khoảng 5 phút, sau đó cho rau ngót vào nấu chín mềm.",
+        "Nêm muối, nước mắm và tiêu cho vừa ăn.",
+        "Rắc hành lá lên trên trước khi tắt bếp."
+      ],
+      "name": "Canh rau ngót nấu thịt bằm",
+      "nutrition": {
+        "calories": 220,
+        "carbs": 6,
+        "fat": 10,
+        "protein": 18
+      },
+      "updatedAt": "2025-06-03T09:13:29.902Z"
+    },
+    "-ORp4BI4S4kfjfBX7H0k": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:17:23.087Z",
+      "description": "Canh bí đỏ hầm xương là món canh ngọt thanh, bổ dưỡng, kết hợp vị béo ngậy từ xương hầm với bí đỏ mềm thơm, rất thích hợp cho bữa ăn gia đình.",
+      "imageUrl": "https://bepmina.vn/wp-content/uploads/2023/03/cach-nau-canh-xuong-bi-do-500x375.jpeg",
+      "ingredients": [
+        "Bí đỏ (bí ngô)",
+        "Xương heo (xương ống hoặc xương sườn)",
+        "Hành tím",
+        "Tỏi",
+        "Nước mắm, muối, tiêu",
+        "Hành lá, rau mùi"
+      ],
+      "instructions": [
+        "Rửa sạch xương heo, chần qua nước sôi để loại bỏ bọt.",
+        "Hầm xương với nước trong nồi áp suất hoặc nồi thường đến khi ngọt nước (khoảng 1-2 giờ).",
+        "Gọt vỏ, cắt bí đỏ thành miếng vừa ăn.",
+        "Phi thơm hành tím và tỏi với dầu ăn.",
+        "Cho bí đỏ vào nồi nước dùng, nấu chín mềm.",
+        "Nêm nước mắm, muối, tiêu vừa ăn.",
+        "Rắc hành lá, rau mùi lên trên trước khi tắt bếp."
+      ],
+      "name": "Canh bí đỏ hầm xương",
+      "nutrition": {
+        "calories": 300,
+        "carbs": 25,
+        "fat": 12,
+        "protein": 20
+      },
+      "updatedAt": "2025-06-03T09:17:23.087Z"
+    },
+    "-ORp4tmTPcjZhJGdZ7zH": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:20:29.417Z",
+      "description": "Canh cà chua trứng là món canh đơn giản, dễ nấu, vị chua nhẹ thanh mát từ cà chua kết hợp với trứng gà tạo độ béo ngậy, rất thích hợp cho bữa ăn nhẹ hoặc bữa sáng.",
+      "imageUrl": "https://cdn.tgdd.vn/Files/2018/09/05/1115250/3-cach-nau-canh-ca-chua-trung-bo-duong-cho-bua-com-gia-dinh-202205231518387644.jpg",
+      "ingredients": [
+        "Cà chua",
+        "Trứng gà",
+        "Hành lá",
+        "Tỏi",
+        "Muối, đường, nước mắm",
+        "Dầu ăn"
+      ],
+      "instructions": [
+        "Rửa sạch cà chua, cắt múi cau hoặc thái nhỏ.",
+        "Đập trứng vào bát, đánh tan.",
+        "Phi thơm tỏi với dầu ăn trong nồi.",
+        "Cho cà chua vào xào mềm, nêm chút muối và đường.",
+        "Đổ nước vào nồi, đun sôi.",
+        "Từ từ đổ trứng vào nồi, dùng đũa khuấy nhẹ để trứng thành vân.",
+        "Nêm lại nước mắm cho vừa ăn.",
+        "Rắc hành lá lên trên trước khi tắt bếp."
+      ],
+      "name": "Canh cà chua trứng",
+      "nutrition": {
+        "calories": 180,
+        "carbs": 10,
+        "fat": 10,
+        "protein": 12
+      },
+      "updatedAt": "2025-06-03T09:20:29.417Z"
+    },
+    "-ORp5JM6OA1tKOasbeOW": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:22:18.258Z",
+      "description": "Rau muống xào tỏi là món ăn đơn giản, phổ biến trong bữa cơm Việt, với rau muống giòn mát kết hợp vị thơm nồng của tỏi phi, rất đưa cơm.",
+      "imageUrl": "https://beptruong.edu.vn/wp-content/uploads/2021/04/rau-muong-xao-toi-1.jpg",
+      "ingredients": [
+        "Rau muống",
+        "Tỏi",
+        "Dầu ăn",
+        "Muối",
+        "Nước mắm (tùy chọn)"
+      ],
+      "instructions": [
+        "Rửa sạch rau muống, để ráo, cắt khúc khoảng 5 cm.",
+        "Bóc vỏ, băm nhỏ tỏi.",
+        "Đun nóng dầu ăn, phi thơm tỏi đến khi vàng.",
+        "Cho rau muống vào xào nhanh trên lửa lớn.",
+        "Nêm muối và nước mắm vừa ăn, đảo đều đến khi rau chín tới nhưng vẫn giữ độ giòn.",
+        "Tắt bếp, dọn ra đĩa, dùng nóng."
+      ],
+      "name": "Rau muống xào tỏi",
+      "nutrition": {
+        "calories": 90,
+        "carbs": 8,
+        "fat": 6,
+        "protein": 2
+      },
+      "updatedAt": "2025-06-03T09:22:18.258Z"
+    },
+    "-ORp5vCdSP5aGNRcojyx": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:24:57.411Z",
+      "description": "Thịt bò xào cần tây là món ăn đơn giản, thơm ngon với vị ngọt của thịt bò hòa quyện cùng vị tươi mát giòn của cần tây, rất hợp dùng trong các bữa ăn gia đình.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/05/CookRecipe/GalleryStep/thanh-pham-1296.jpg",
+      "ingredients": [
+        "Thịt bò (thịt thăn hoặc bắp bò)",
+        "Cần tây",
+        "Tỏi",
+        "Dầu ăn",
+        "Nước tương (xì dầu)",
+        "Muối, đường, tiêu"
+      ],
+      "instructions": [
+        "Rửa sạch thịt bò, thái lát mỏng theo thớ. Ướp với ít muối, tiêu và nước tương khoảng 15 phút.",
+        "Rửa sạch cần tây, cắt khúc khoảng 3-4 cm.",
+        "Băm nhỏ tỏi.",
+        "Đun nóng dầu, phi thơm tỏi.",
+        "Cho thịt bò vào xào nhanh trên lửa lớn đến khi vừa chín tới.",
+        "Thêm cần tây vào xào chung, nêm đường, muối vừa ăn.",
+        "Xào nhanh tay đến khi cần tây chín giòn, tắt bếp."
+      ],
+      "name": "Thịt bò xào cần tây",
+      "nutrition": {
+        "calories": 350,
+        "carbs": 10,
+        "fat": 15,
+        "protein": 35
+      },
+      "updatedAt": "2025-06-03T09:24:57.411Z"
+    },
+    "-ORp6azlR1eFRdzC9uYb": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:27:56.748Z",
+      "description": "Khổ qua xào trứng là món ăn dân dã, bổ dưỡng với vị đắng nhẹ của khổ qua kết hợp cùng trứng xào mềm mịn, rất hợp dùng trong các bữa ăn gia đình.",
+      "imageUrl": "https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/kien-thuc/cach-lam-kho-qua-xao-trung/cach-lam-kho-qua-xao-trung-1.jpg",
+      "ingredients": [
+        "Khổ qua (mướp đắng)",
+        "Trứng gà",
+        "Hành tím",
+        "Tỏi",
+        "Dầu ăn",
+        "Muối, tiêu, nước mắm"
+      ],
+      "instructions": [
+        "Rửa sạch khổ qua, cắt lát mỏng, bỏ hạt nếu muốn giảm đắng.",
+        "Đập trứng vào bát, đánh tan.",
+        "Phi thơm hành tím và tỏi băm với dầu ăn.",
+        "Cho khổ qua vào xào nhanh đến khi hơi mềm.",
+        "Đổ trứng vào, đảo đều tay cho trứng chín mềm bao quanh khổ qua.",
+        "Nêm muối, tiêu, nước mắm vừa ăn.",
+        "Tắt bếp, dọn ra đĩa, ăn nóng."
+      ],
+      "name": "Khổ qua xào trứng",
+      "nutrition": {
+        "calories": 280,
+        "carbs": 12,
+        "fat": 16,
+        "protein": 18
+      },
+      "updatedAt": "2025-06-03T09:27:56.748Z"
+    },
+    "-ORp76ZuRDV4MAWhPRJI": {
+      "category": "breakfast",
+      "createdAt": "2025-06-03T09:30:10.197Z",
+      "description": "Đậu que xào thịt là món ăn ngon, dễ làm với đậu que giòn tươi kết hợp cùng thịt heo hoặc bò mềm ngọt, rất phù hợp trong bữa ăn gia đình.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/07/CookProduct/dthum-1200x676-1.jpg",
+      "ingredients": [
+        "Đậu que",
+        "Thịt heo hoặc thịt bò thái lát mỏng",
+        "Tỏi",
+        "Dầu ăn",
+        "Muối, tiêu, nước mắm"
+      ],
+      "instructions": [
+        "Rửa sạch đậu que, cắt khúc khoảng 3-4 cm.",
+        "Ướp thịt với muối, tiêu và nước mắm trong 15 phút.",
+        "Băm nhỏ tỏi.",
+        "Đun nóng dầu, phi thơm tỏi.",
+        "Cho thịt vào xào nhanh trên lửa lớn đến khi săn lại.",
+        "Thêm đậu que vào xào chung, nêm nếm vừa ăn.",
+        "Xào nhanh tay đến khi đậu chín giòn, tắt bếp."
+      ],
+      "name": "Đậu que xào thịt",
+      "nutrition": {
+        "calories": 320,
+        "carbs": 15,
+        "fat": 15,
+        "protein": 10
+      },
+      "updatedAt": "2025-06-03T09:30:10.197Z"
+    },
+    "-OScCvVQWnFBPUk5ZN2h": {
+      "category": "breakfast",
+      "createdAt": "2025-06-13T07:36:12.203Z",
+      "description": "Salad tươi mát với quinoa – loại hạt giàu đạm thực vật, kết hợp cùng rau củ nhiều màu sắc, giúp thanh lọc cơ thể.",
+      "imageUrl": "https://www.skinnytaste.com/wp-content/uploads/2015/03/Southwestern-Black-Bean-Quinoa-_-Mango-Medley-8.jpg",
+      "ingredients": [
+        "1/2 chén quinoa",
+        "1/2 trái bơ",
+        "1/4 củ hành tím",
+        "1/2 quả dưa leo",
+        "6–8 quả cà chua bi",
+        "Rau mùi, chanh, muối, tiêu, dầu olive"
+      ],
+      "instructions": [
+        "Luộc chín quinoa (tỷ lệ 1 quinoa : 2 nước) khoảng 15 phút, để nguội.",
+        "Cắt nhỏ bơ, dưa leo, cà chua, hành tím.",
+        "Trộn quinoa với rau củ, nêm dầu olive, nước cốt chanh, muối tiêu.",
+        "Ăn ngay hoặc để lạnh."
+      ],
+      "name": " Salad hạt quinoa và rau củ",
+      "nutrition": {
+        "calories": 250,
+        "carbs": 8,
+        "fat": 10,
+        "protein": 6
+      },
+      "updatedAt": "2025-06-13T07:36:12.204Z"
+    },
+    "-OScDcrcoez9sKfnIN-d": {
+      "category": "breakfast",
+      "createdAt": "2025-06-13T07:39:18.008Z",
+      "description": "Canh thanh mát, nhẹ bụng với đậu xanh, cà rốt, bí đỏ, cải thảo – giúp giải nhiệt, hỗ trợ tiêu hóa.",
+      "imageUrl": "https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/473478jBP/image-cach-lam-canh-dau-xanh-thit-bam-ngon-bi-kip-giai-ruou-hoan-hao-cho-cac-quy-ong-164980998019774.jpg",
+      "ingredients": [
+        "1/4 chén đậu xanh cà vỏ",
+        "1 củ cà rốt",
+        "100g bí đỏ",
+        "3–4 lá cải thảo",
+        "Gừng lát, muối, tiêu"
+      ],
+      "instructions": [
+        "Nấu mềm đậu xanh với nước (1 lít).",
+        "Thêm cà rốt, bí đỏ, gừng.",
+        "Khi rau chín, cho cải thảo vào, nêm vừa ăn.",
+        "Dùng nóng, có thể rắc tiêu và ngò."
+      ],
+      "name": "Canh rau củ đậu xanh thanh nhiệt",
+      "nutrition": {
+        "calories": 180,
+        "carbs": 7,
+        "fat": 3,
+        "protein": 5
+      },
+      "updatedAt": "2025-06-13T07:39:18.008Z"
+    },
+    "-OScEHM9pFLUyvdxWAYM": {
+      "category": "breakfast",
+      "createdAt": "2025-06-13T07:42:07.963Z",
+      "description": "Bún gạo lứt giàu chất xơ, kết hợp cùng rau hấp và sốt mè rang béo nhẹ, lành mạnh.",
+      "imageUrl": "https://cdn.bestme.vn/images/bestme/bun-gao-lut-giam-can.jpg",
+      "ingredients": [
+        "100g bún gạo lứt",
+        "1/2 củ cà rốt",
+        "1/2 trái dưa leo",
+        "50g bắp cải tím",
+        "1 muỗng sốt mè rang Nhật (hoặc tự pha từ mè rang, giấm, đường, nước tương)"
+      ],
+      "instructions": [
+        "Luộc bún, xả nước lạnh.",
+        "Cắt nhỏ rau củ, có thể hấp sơ hoặc để sống tùy khẩu vị.",
+        "Trộn tất cả với sốt mè.",
+        "Dùng lạnh hoặc nguội."
+      ],
+      "name": "Bún gạo lứt trộn rau củ sốt mè rang",
+      "nutrition": {
+        "calories": 300,
+        "carbs": 5,
+        "fat": 9,
+        "protein": 6
+      },
+      "updatedAt": "2025-06-13T07:42:07.963Z"
+    },
+    "-OScEtvnx-8EX1M_0idB": {
+      "category": "breakfast",
+      "createdAt": "2025-06-13T07:44:50.052Z",
+      "description": "Món hấp không dầu mỡ, đậu hũ mềm mịn kết hợp cùng nấm và rau xanh – cực kỳ nhẹ bụng, dễ tiêu.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/10/CookDish/cach-lam-dau-hu-hap-nam-chay-don-gian-cho-bua-com-thanh-dam-avt-1200x676-1.jpg",
+      "ingredients": [
+        "1 miếng đậu hũ non",
+        "100g nấm đông cô tươi hoặc nấm đùi gà",
+        "100g bông cải xanh",
+        "Nước tương, gừng, mè rang"
+      ],
+      "instructions": [
+        "Cắt đậu hũ thành lát, xếp ra dĩa.",
+        "Cắt nhỏ nấm, bông cải, xếp lên đậu hũ.",
+        "Hấp cách thủy 10 phút.",
+        "Rưới nước tương pha với gừng băm lên, rắc mè rang."
+      ],
+      "name": "Đậu hũ hấp nấm và bông cải xanh",
+      "nutrition": {
+        "calories": 180,
+        "carbs": 5,
+        "fat": 3,
+        "protein": 10
+      },
+      "updatedAt": "2025-06-13T07:44:50.052Z"
+    },
+    "recipe1": {
+      "category": "breakfast",
+      "description": "Món phở truyền thống nổi tiếng của Hà Nội với nước dùng thơm ngon, thịt bò mềm và bánh phở dai.",
+      "imageUrl": "https://vietfood.org.vn/wp-content/uploads/2020/12/Pho1.jpg",
+      "ingredients": [
+        "Bánh phở",
+        "Thịt bò tái",
+        "Hành lá",
+        "Hành tím",
+        "Gừng",
+        "Quế",
+        "Đinh hương",
+        "Muối",
+        "Đường",
+        "Nước mắm"
+      ],
+      "instructions": [
+        "Nấu nước dùng từ xương bò và các gia vị quế, đinh hương, gừng",
+        "Trần bánh phở qua nước sôi",
+        "Thái thịt bò mỏng",
+        "Cho bánh phở vào tô, đặt thịt bò lên trên",
+        "Chan nước dùng nóng lên, thêm hành lá và hành tím",
+        "Thưởng thức với rau thơm và chanh"
+      ],
+      "name": "Phở Bò Hà Nội",
+      "nutrition": {
+        "calories": 350,
+        "carbs": 45,
+        "fat": 12,
+        "protein": 25
+      },
+      "status": "pending",
+      "updatedAt": "2025-06-03T08:45:34.098Z"
+    }
+  },
+  "users": {
+    "9griWgW0MARHGvoxyDSYklWSng63": {
+      "displayName": "quantrinutriplan",
+      "email": "quantrinutriplan@gmail.com",
+      "lastLogin": "2025-07-15T07:46:34.843Z",
+      "photoURL": "https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png",
+      "provider": "password",
+      "uid": "9griWgW0MARHGvoxyDSYklWSng63"
+    },
+    "K3O5UnDcTAgPB89F8KfhtRMuSQv1": {
+      "basicInfo": {
+        "activity": "1.2",
+        "age": 21,
+        "gender": "female",
+        "goal": "lose",
+        "healthStatus": "tiểu đường",
+        "height": 160,
+        "lastCalculation": "2025-07-15T07:31:40.666Z",
+        "weight": 67
+      },
+      "calculationHistory": {
+        "1752564644134": {
+          "basicInfo": {
+            "activity": "1.2",
+            "age": 21,
+            "gender": "female",
+            "goal": "lose",
+            "healthStatus": "nóng trong người",
+            "height": 160,
+            "lastCalculation": "2025-07-15T07:30:44.134Z",
+            "weight": 67
+          },
+          "calculations": {
+            "bmi": 26.2,
+            "bmr": 1404,
+            "calorieGoal": 1185,
+            "tdee": 1685
+          },
+          "macronutrients": {
+            "carbs": 118,
+            "fat": 39,
+            "protein": 89
+          },
+          "timestamp": "2025-07-15T07:30:44.134Z"
+        },
+        "1752564700666": {
+          "basicInfo": {
+            "activity": "1.2",
+            "age": 21,
+            "gender": "female",
+            "goal": "lose",
+            "healthStatus": "tiểu đường",
+            "height": 160,
+            "lastCalculation": "2025-07-15T07:31:40.666Z",
+            "weight": 67
+          },
+          "calculations": {
+            "bmi": 26.2,
+            "bmr": 1404,
+            "calorieGoal": 1185,
+            "tdee": 1685
+          },
+          "macronutrients": {
+            "carbs": 118,
+            "fat": 39,
+            "protein": 89
+          },
+          "timestamp": "2025-07-15T07:31:40.666Z"
+        }
+      },
+      "calculations": {
+        "bmi": 26.2,
+        "bmr": 1404,
+        "calorieGoal": 1185,
+        "tdee": 1685
+      },
+      "displayName": "Như Quỳnh",
+      "email": "nhuquynh1357.vnh@gmail.com",
+      "lastLogin": "2025-07-15T07:43:42.682Z",
+      "macronutrients": {
+        "carbs": 118,
+        "fat": 39,
+        "protein": 89
+      },
+      "meals": {
+        "2025-07-15": {
+          "-OVC-yFLiv-GYBYVpTVw": {
+            "calories": 150,
+            "carbs": 0,
+            "createdAt": "2025-07-15T07:36:55.638Z",
+            "fat": 0,
+            "name": "150g sữa chua",
+            "notes": "sữa chua không đường",
+            "protein": 0,
+            "time": "06:40",
+            "type": "breakfast"
+          },
+          "-OVC0CsLgXfh7uMUqr6L": {
+            "calories": 220,
+            "carbs": 48,
+            "createdAt": "2025-07-15T07:37:59.637Z",
+            "fat": 0.6,
+            "name": "200g cơm",
+            "notes": "cơm gạo lứt",
+            "protein": 4.3,
+            "time": "09:40",
+            "type": "lunch"
+          },
+          "-OVC0LAYtd3PVxoOFByA": {
+            "calories": 360,
+            "carbs": 0,
+            "createdAt": "2025-07-15T07:38:33.635Z",
+            "fat": 12,
+            "name": "200g thịt bò",
+            "notes": "thịt nạc",
+            "protein": 64,
+            "time": "19:40",
+            "type": "dinner"
+          },
+          "-OVC0bt-sY7y-FYMJH-o": {
+            "calories": 165,
+            "carbs": 0,
+            "createdAt": "2025-07-15T07:39:46.176Z",
+            "fat": 3.6,
+            "name": "100g ức gà",
+            "notes": "ức gà không da",
+            "protein": 31,
+            "time": "17:40",
+            "type": "snack"
+          }
+        }
+      },
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKEG9ZDJte-yfTLVUsBupvTUMP49rCM5aPSY3iHETAI5BB_tE4=s96-c",
+      "provider": "google.com",
+      "uid": "K3O5UnDcTAgPB89F8KfhtRMuSQv1"
+    }
+  }
+}

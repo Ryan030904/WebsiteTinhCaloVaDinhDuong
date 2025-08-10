@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Sơ đồ Cấu trúc Cây Firebase</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+        padding: 30px;
+    }
+    .tree ul {
+        padding-left: 20px; 
+        position: relative;
+        transition: all 0.5s;
+    }
+    .tree li {
+        text-align: left;
+        list-style-type: none;
+        position: relative;
+        padding: 10px 0 0 20px;
+        transition: all 0.5s;
+    }
+    /* Đường nối từ cha đến con */
+    .tree li::before {
+        content: '';
+        position: absolute; 
+        top: 0; 
+        left: 0;
+        border-left: 2px solid #ccc;
+        height: 100%;
+        width: 0;
+    }
+    .tree li::after {
+        content: '';
+        position: absolute; 
+        top: 20px; 
+        left: 0;
+        border-top: 2px solid #ccc;
+        width: 20px;
+        height: 0;
+    }
+    /* Xóa đường thừa cho node cuối */
+    .tree li:last-child::before {
+        height: 20px;
+    }
+    /* Xóa đường cho node đầu */
+    .tree li:first-child::before {
+        top: 20px;
+    }
+    /* Nút chính */
+    .tree li div {
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        display: inline-block;
+        border-radius: 8px;
+        background: #fff;
+        min-width: 150px;
+        margin-left: 20px;
+        position: relative;
+        z-index: 1;
+    }
+    /* Hiệu ứng hover */
+    .tree li div:hover {
+        background: #e2f0ff;
+        border-color: #3b82f6;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    }
+    /* Container chính */
+    .tree {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    /* Root node styling */
+    .tree > ul > li > div {
+        background: #3b82f6;
+        color: white;
+        font-weight: bold;
+    }
+    .tree > ul > li > div:hover {
+        background: #2563eb;
+    }
+</style>
+</head>
+<body>
+
+<h2>Sơ đồ Cấu trúc Cây Firebase NoSQL</h2>
+
+<div class="tree">
+    <ul>
+        <li>
+            <div>Firebase NoSQL</div>
+            <ul>
+                <li><div>Contacts (Liên hệ)</div></li>
+                <li>
+                    <div>Recipes (Món ăn & Công thức)</div>
+                    <ul>
+                        <li><div>Category (Danh mục)</div></li>
+                        <li><div>Ingredients (Nguyên liệu)</div></li>
+                        <li><div>Instructions (Cách nấu)</div></li>
+                        <li><div>Nutrition (Dinh dưỡng)</div></li>
+                    </ul>
+                </li>
+                <li>
+                    <div>User (Người dùng)</div>
+                    <ul>
+                        <li><div>BasicInfo (Chỉ số cơ thể)</div></li>
+                        <li><div>CalculationHistory (Lịch sử tính toán)</div></li>
+                        <li><div>Calculation (Kết quả tính toán / Thông tin tài khoản)</div></li>
+                        <li><div>Macronutrients (Dinh dưỡng người dùng)</div></li>
+                        <li><div>Meal (Bữa ăn)</div></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - NutriPlan - Thực Đơn Sống Khỏe</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=League+Spartan:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@400;700&family=Dancing+Script:wght@400;700&family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Thêm Swiper CSS và JS vào head -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="account.css">
+    <script src="account.js"></script>
+    <!-- Thêm Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="picture/NutriPlan.png" alt="NutriPlan Logo" id="logo-img"> 
+            <div class="site-title">NutriPlan</div>
+            <div class="tagline">Thực Đơn Sống Khỏe</div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+            <li><a href="index.html">Trang Chủ</a></li>
+            <li><a href="calculator.html">Tính CALO & TDEE & BMR</a></li>
+            <li><a href="FoodandRecipes.html">Món Ăn & Công Thức</a></li>
+            <li><a href="about.html">Giới Thiệu</a></li>
+            <li><a href="contact.html">Liên Hệ</a></li>
+            <li><a href="terms.html">Điều khoản & Bảo mật</a></li>
+        </ul>
+            <div class="nav-login">
+                <div class="user-dropdown">
+                    <a href="#" id="loginBtn" class="login-btn">Đăng Nhập</a>
+                    <div class="user-dropdown-content">
+                        <a href="account.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Tài khoản
+                        </a>
+                        <a href="#" id="logoutBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="index.html">Trang chủ</a> / <span>Tài khoản</span>
+            </div>
+
+            <!-- Account Overview -->
+            <div class="account-overview">
+                <div class="account-header">
+                    <h1>Tài Khoản Của Tôi</h1>
+                    <p class="account-subtitle">Quản lý thông tin cá nhân và theo dõi sức khỏe của bạn</p>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="account-grid">
+                    <!-- Left Column - Sidebar Navigation -->
+                    <div class="account-sidebar">
+                        <div class="profile-card">
+                            <div class="profile-header">
+                                <div class="profile-avatar">
+                                    <img id="accountAvatar" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png" alt="Avatar">
+                                </div>
+                                <div class="profile-info">
+                                    <h2 id="accountName">...</h2>
+                                    <p id="accountEmail">...</p>
+                                </div>
+                            </div>
+                                </div>
+
+                        <!-- Sidebar Navigation -->
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li class="active">
+                                    <a href="#overview">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                        Tổng quan
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#personal-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                        Thông tin cá nhân
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#health-metrics">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                        Chỉ số sức khỏe
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#nutrition-goals">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                        Mục tiêu dinh dưỡng
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#food-diary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                                        Nhật ký ăn uống
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#progress">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                        Tiến trình
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#settings">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                        Cài đặt
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                                </div>
+
+                    <!-- Right Column - Content -->
+                    <div class="account-content">
+                        <!-- Overview Section -->
+                        <section id="overview" class="content-section active">
+                            <div class="section-header">
+                                <h2>Tổng Quan</h2>
+                            </div>
+                            <div class="overview-grid">
+                                <div class="overview-card">
+                                    <div class="overview-icon">🎯</div>
+                                    <div class="overview-info">
+                                        <span class="overview-label">Mục tiêu</span>
+                                        <span id="overviewGoal" class="overview-value">...</span>
+                        </div>
+                    </div>
+                                <div class="overview-card">
+                                    <div class="overview-icon">⚖️</div>
+                                    <div class="overview-info">
+                                        <span class="overview-label">BMI</span>
+                                        <span id="overviewBMI" class="overview-value">...</span>
+                                    </div>
+                                </div>
+                                <div class="overview-card">
+                                    <div class="overview-icon">🔥</div>
+                                    <div class="overview-info">
+                                        <span class="overview-label">BMR</span>
+                                        <span id="overviewBMR" class="overview-value">...</span>
+                                        <span class="overview-unit">kcal</span>
+                                    </div>
+                                </div>
+                                <div class="overview-card">
+                                    <div class="overview-icon">⚡</div>
+                                    <div class="overview-info">
+                                        <span class="overview-label">TDEE</span>
+                                        <span id="overviewTDEE" class="overview-value">...</span>
+                                        <span class="overview-unit">kcal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Personal Information Section -->
+                        <section id="personal-info" class="content-section">
+                            <div class="section-header">
+                                <h2>Thông Tin Cá Nhân</h2>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">Giới tính</span>
+                                    <span id="accountGender" class="info-value">...</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Tuổi</span>
+                                    <span id="accountAge" class="info-value">...</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Chiều cao</span>
+                                    <span id="accountHeight" class="info-value">... cm</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Cân nặng</span>
+                                    <span id="accountWeight" class="info-value">... kg</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Health Metrics Section -->
+                        <section id="health-metrics" class="content-section">
+                            <div class="section-header">
+                                <h2>Chỉ Số Sức Khỏe</h2>
+                            </div>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-icon">🔥</div>
+                                    <div class="metric-info">
+                                        <span class="metric-label">BMR</span>
+                                        <span id="healthBMR" class="metric-value">...</span>
+                                        <span class="metric-unit">kcal</span>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">⚡</div>
+                                    <div class="metric-info">
+                                        <span class="metric-label">TDEE</span>
+                                        <span id="healthTDEE" class="metric-value">...</span>
+                                        <span class="metric-unit">kcal</span>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">🎯</div>
+                                    <div class="metric-info">
+                                        <span class="metric-label">Mục tiêu calo</span>
+                                        <span id="healthCalorieGoal" class="metric-value">...</span>
+                                        <span class="metric-unit">kcal</span>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">⚖️</div>
+                                    <div class="metric-info">
+                                        <span class="metric-label">BMI</span>
+                                        <span id="healthBMI" class="metric-value">...</span>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">📏</div>
+                                    <div class="metric-info">
+                                        <span class="metric-label">Chiều cao</span>
+                                        <span id="healthHeight" class="metric-value">...</span>
+                                        <span class="metric-unit">cm</span>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">⚖️</div>
+                                    <div class="metric-info">
+                                        <span class="metric-label">Cân nặng</span>
+                                        <span id="healthWeight" class="metric-value">...</span>
+                                        <span class="metric-unit">kg</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Nutrition Goals Section -->
+                        <section id="nutrition-goals" class="content-section">
+                            <div class="section-header">
+                                <h2>Mục Tiêu Dinh Dưỡng</h2>
+                            </div>
+                            <div class="nutrition-grid">
+                                <div class="nutrition-card carbs">
+                                    <div class="nutrition-icon">🍚</div>
+                                    <div class="nutrition-info">
+                                        <span class="nutrition-label">Carbohydrate</span>
+                                        <span id="statCarbs" class="nutrition-value">...</span>
+                                        <span class="nutrition-unit">g</span>
+                                    </div>
+                                </div>
+                                <div class="nutrition-card protein">
+                                    <div class="nutrition-icon">🥩</div>
+                                    <div class="nutrition-info">
+                                        <span class="nutrition-label">Protein</span>
+                                        <span id="statProtein" class="nutrition-value">...</span>
+                                        <span class="nutrition-unit">g</span>
+                                    </div>
+                                </div>
+                                <div class="nutrition-card fat">
+                                    <div class="nutrition-icon">🥑</div>
+                                    <div class="nutrition-info">
+                                        <span class="nutrition-label">Chất béo</span>
+                                        <span id="statFat" class="nutrition-value">...</span>
+                                        <span class="nutrition-unit">g</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Food Diary Section -->
+                        <section id="food-diary" class="content-section">
+                            <div class="section-header">
+                                <h2>Nhật Ký Ăn Uống</h2>
+                                <button class="edit-btn" id="addMealBtn">Thêm bữa ăn</button>
+                    </div>
+                            <div class="food-diary-container">
+                                <!-- Date Selector -->
+                                <div class="date-selector">
+                                    <button class="date-nav-btn" id="prevDateBtn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                                    </button>
+                                    <span id="currentDate">Hôm nay</span>
+                                    <button class="date-nav-btn" id="nextDateBtn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                                    </button>
+                                </div>
+
+                                <!-- Meals Summary -->
+                                <div class="meals-summary">
+                                    <div class="summary-card">
+                                        <div class="summary-icon">🍽️</div>
+                                        <div class="summary-info">
+                                            <span class="summary-label">Tổng calo</span>
+                                            <span id="totalCalories" class="summary-value">0</span>
+                                            <span class="summary-unit">kcal</span>
+                                        </div>
+                                    </div>
+                                    <div class="summary-card">
+                                        <div class="summary-icon">💧</div>
+                                        <div class="summary-info">
+                                            <span class="summary-label">Nước uống</span>
+                                            <span id="totalWater" class="summary-value">0</span>
+                                            <span class="summary-unit">ml</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Meals List -->
+                                <div class="meals-list" id="mealsList">
+                                    <!-- Meals will be added here dynamically -->
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Progress Section -->
+                        <section id="progress" class="content-section">
+                            <div class="section-header">
+                                <h2>Tiến Trình</h2>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-chart">
+                                    <!-- Chart will be added here -->
+                                    <canvas id="progressChart"></canvas>
+                                    <div class="chart-placeholder">
+                                        <p>Biểu đồ tiến trình sẽ được hiển thị ở đây</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Settings Section -->
+                        <section id="settings" class="content-section">
+                            <div class="section-header">
+                                <h2>Cài Đặt</h2>
+                            </div>
+                            <div class="settings-container">
+                                <div class="settings-group">
+                                    <h3>Tài khoản</h3>
+                                    <div class="settings-item">
+                                        <span class="settings-label">Mật khẩu</span>
+                                        <span class="settings-value">********</span>
+                                        <button class="settings-btn">Thay đổi</button>
+                                    </div>
+                                </div>
+                                <!-- <div class="settings-group">
+                                    <h3>Thông báo</h3>
+                                    <div class="settings-item">
+                                        <span class="settings-label">Nhắc nhở bữa ăn</span>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="settings-item">
+                                        <span class="settings-label">Nhắc nhở uống nước</span>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Meal Modal -->
+    <div id="addMealModal" class="add-meal-modal">
+        <div class="add-meal-content">
+            <div class="add-meal-header">
+                <h2>Thêm Bữa Ăn</h2>
+                <button class="close">&times;</button>
+            </div>
+            <div class="add-meal-body">
+                <form id="addMealForm" class="add-meal-form">
+                    <!-- Left Column -->
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="mealType">Loại bữa ăn</label>
+                            <select id="mealType" required>
+                                <option value="breakfast">Bữa sáng</option>
+                                <option value="lunch">Bữa trưa</option>
+                                <option value="dinner">Bữa tối</option>
+                                <option value="snack">Bữa phụ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mealTime">Thời gian</label>
+                            <input type="time" id="mealTime" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="mealName">Tên món ăn</label>
+                            <div class="meal-name-input">
+                                <input type="text" id="mealName" required placeholder="Nhập tên món ăn">
+                                <button type="button" id="calculateCaloriesBtn" class="calculate-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                    </svg>
+                                    Phân tích dinh dưỡng
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="mealNotes">Ghi chú</label>
+                            <textarea id="mealNotes" placeholder="Thêm ghi chú về bữa ăn" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="form-column">
+                        <!-- Nutrition Information Section -->
+                        <div class="nutrition-info-section">
+                            <h3>Thông tin dinh dưỡng</h3>
+                            <div class="nutrition-grid">
+                                <div class="nutrition-item">
+                                    <span class="nutrition-label">Calories</span>
+                                    <input type="number" id="mealCalories" value="0" required step="any">
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-label">Tinh bột (g)</span>
+                                    <input type="number" id="mealCarbs" value="0" required step="any">
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-label">Chất đạm (g)</span>
+                                    <input type="number" id="mealProtein" value="0" required step="any">
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-label">Chất béo (g)</span>
+                                    <input type="number" id="mealFat" value="0" required step="any">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Health Recommendations Section -->
+                        <div class="health-recommendations">
+                            <h3>Khuyến nghị sức khỏe</h3>
+                            <div class="recommendations-content" id="healthRecommendations">
+                                <!-- Recommendations will be added here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="add-meal-footer">
+                <button type="submit" form="addMealForm" class="submit-btn">Thêm bữa ăn</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Meal Modal -->
+    <div id="editMealModal" class="add-meal-modal">
+        <div class="add-meal-content">
+            <div class="add-meal-header">
+                <h2>Sửa Bữa Ăn</h2>
+                <button class="close">&times;</button>
+            </div>
+            <div class="add-meal-body">
+                <form id="editMealForm" class="add-meal-form">
+                    <input type="hidden" id="editMealId">
+                    <!-- Left Column -->
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="editMealType">Loại bữa ăn</label>
+                            <select id="editMealType" required>
+                                <option value="breakfast">Bữa sáng</option>
+                                <option value="lunch">Bữa trưa</option>
+                                <option value="dinner">Bữa tối</option>
+                                <option value="snack">Bữa phụ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editMealTime">Thời gian</label>
+                            <input type="time" id="editMealTime" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="editMealName">Tên món ăn</label>
+                            <div class="meal-name-input">
+                                <input type="text" id="editMealName" required placeholder="Nhập tên món ăn">
+                                <button type="button" id="editCalculateCaloriesBtn" class="calculate-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                    </svg>
+                                    Phân tích dinh dưỡng
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="editMealNotes">Ghi chú</label>
+                            <textarea id="editMealNotes" placeholder="Thêm ghi chú về bữa ăn" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="form-column">
+                        <!-- Nutrition Information Section -->
+                        <div class="nutrition-info-section">
+                            <h3>Thông tin dinh dưỡng</h3>
+                            <div class="nutrition-grid">
+                                <div class="nutrition-item">
+                                    <span class="nutrition-label">Calories</span>
+                                    <input type="number" id="editMealCalories" value="0" required step="any">
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-label">Tinh bột (g)</span>
+                                    <input type="number" id="editMealCarbs" value="0" required step="any">
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-label">Chất đạm (g)</span>
+                                    <input type="number" id="editMealProtein" value="0" required step="any">
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-label">Chất béo (g)</span>
+                                    <input type="number" id="editMealFat" value="0" required step="any">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Health Recommendations Section -->
+                        <div class="health-recommendations">
+                            <h3>Khuyến nghị sức khỏe</h3>
+                            <div class="recommendations-content" id="editHealthRecommendations">
+                                <!-- Recommendations will be added here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="add-meal-footer">
+                <button type="button" class="submit-btn" id="saveEditMealBtn">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Chào mừng đến với NutriPlan</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-tabs">
+                    <button class="tab-btn active" data-tab="login">Đăng Nhập</button>
+                    <button class="tab-btn" data-tab="register">Đăng Ký</button>
+                </div>
+                
+                <div id="login" class="tab-content active">
+                    <div class="social-login">
+                        <button class="social-login-btn" id="googleLogin">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                            Đăng nhập với Google
+                        </button>
+                    </div>
+                    <div class="divider">
+                        <span>hoặc</span>
+                    </div>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Mật khẩu</label>
+                            <input type="password" id="loginPassword" required placeholder="Nhập mật khẩu của bạn">
+                        </div>
+                        <button type="submit" class="submit-btn">Đăng Nhập</button>
+                        <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                    </form>
+                </div>
+
+                <div id="register" class="tab-content">
+                    <div class="social-login">
+                        <button class="social-login-btn" id="googleRegister">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                            Đăng ký với Google
+                        </button>
+                    </div>
+                    <div class="divider">
+                        <span>hoặc</span>
+                    </div>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerName">Họ và tên</label>
+                            <input type="text" id="registerName" required placeholder="Nhập họ và tên của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email</label>
+                            <input type="email" id="registerEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Mật khẩu</label>
+                            <input type="password" id="registerPassword" required placeholder="Nhập mật khẩu của bạn">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Xác nhận mật khẩu</label>
+                            <input type="password" id="confirmPassword" required placeholder="Nhập lại mật khẩu">
+                        </div>
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a></label>
+                        </div>
+                        <button type="submit" class="submit-btn">Đăng Ký</button>
+                    </form>
+                </div>
+
+                <div id="forgotPassword" class="tab-content">
+                    <h2 style="font-size: 1.3rem; margin-bottom: 1rem;">Quên Mật Khẩu</h2>
+                    <p style="margin-bottom: 1.2rem; color: #666; font-size: 0.9rem;">Nhập email của bạn để nhận link đặt lại mật khẩu</p>
+                    <form id="forgotPasswordForm">
+                        <div class="form-group">
+                            <label for="forgotEmail">Email</label>
+                            <input type="email" id="forgotEmail" required placeholder="Nhập email của bạn">
+                        </div>
+                        <button type="submit" class="submit-btn">Gửi Link Đặt Lại Mật Khẩu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Personal Info Modal -->
+    <div id="editPersonalInfoModal" class="add-meal-modal">
+        <div class="add-meal-content">
+            <div class="add-meal-header">
+                <h2>Chỉnh Sửa Thông Tin Cá Nhân</h2>
+                <button class="close">&times;</button>
+            </div>
+            <div class="add-meal-body">
+                <form id="editPersonalInfoForm" class="add-meal-form">
+                    <div class="form-group">
+                        <label for="editGender">Giới tính</label>
+                        <select id="editGender" required>
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAge">Tuổi</label>
+                        <input type="number" id="editAge" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="editHeight">Chiều cao (cm)</label>
+                        <input type="number" id="editHeight" required min="1" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="editWeight">Cân nặng (kg)</label>
+                        <input type="number" id="editWeight" required min="0.1" step="any">
+                    </div>
+                </form>
+            </div>
+            <div class="add-meal-footer">
+                <button type="button" class="submit-btn" id="savePersonalInfoBtn">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Đổi Mật Khẩu</h2>
+                <button class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Mật khẩu hiện tại</label>
+                        <input type="password" id="currentPassword" required placeholder="Nhập mật khẩu hiện tại">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Mật khẩu mới</label>
+                        <input type="password" id="newPassword" required placeholder="Nhập mật khẩu mới">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmNewPassword">Xác nhận mật khẩu mới</label>
+                        <input type="password" id="confirmNewPassword" required placeholder="Nhập lại mật khẩu mới">
+                    </div>
+                    <button type="submit" class="submit-btn">Lưu Mật Khẩu Mới</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col about">
+                <img src="picture/NutriPlan.png" alt="NutriPlan Logo" class="footer-logo">
+                <div class="footer-brand">NutriPlan</div>
+                <div class="footer-slogan">Thực Đơn Sống Khỏe</div>
+                <p class="footer-desc">Đồng hành cùng bạn xây dựng thực đơn khoa học, sống khỏe mỗi ngày.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Về NutriPlan</h4>
+                <ul>
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="about.html">Giới Thiệu</a></li>
+                   
+                   
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Sức Khỏe</h4>
+                <ul>
+                    <li><a href="calculator.html">Tính Calo & TDEE</a></li>
+                    <li><a href="FoodandRecipes.html">Món Ăn & Công Thức</a></li>
+                   
+                    <li><a href="account.html">Tài Khoản</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Hỗ Trợ</h4>
+                <ul>
+                    <li><a href="contact.html">Liên Hệ</a></li>
+                    <li><a href="terms.html">Chính Sách Bảo Mật</a></li>
+                    <li><a href="terms.html">Điều Khoản Sử Dụng</a></li>
+                    
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kết Nối</h4>
+                
+                <div class="footer-contact">
+                    <div class="footer-contact-row"><span class="footer-contact-label">Hotline:</span> <span class="footer-contact-content"><a href="tel:0888192049">0888 192 049</a></span></div>
+                    <div class="footer-contact-row"><span class="footer-contact-label">Email:</span> <span class="footer-contact-content"><a class="footer-email" href="mailto:nutriplan@gmail.com">nutriplan@gmail.com</a></span></div>
+                    <div class="footer-contact-row"><span class="footer-contact-label">Địa chỉ:</span> <span class="footer-contact-content">168 Nguyễn Văn Cừ nối dài,An Bình,Ninh Kiều,Cần Thơ</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 NutriPlan. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

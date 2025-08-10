@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - NutriPlan</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        
+        :root {
+            --primary-color: #097770;
+            --secondary-color: #ffb82e;
+            --success-color: #10B981;
+            --danger-color: #EF4444;
+            --warning-color: #F59E0B;
+            --info-color: #3B82F6;
+            --dark-color: #1F2937;
+            --light-color: #F3F4F6;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: var(--dark-color);
+            line-height: 1.5;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #E5E7EB;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--dark-color);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .user-role {
+            font-size: 0.875rem;
+            color: #6B7280;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6B7280;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            color: var(--success-color);
+        }
+
+        /* Data Tables */
+        .data-table {
+            background-color: var(--white);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #E5E7EB;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #076B65;
+        }
+
+        .btn-secondary {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #E5E7EB;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        th {
+            font-weight: 600;
+            color: #6B7280;
+            background-color: #F9FAFB;
+        }
+
+        tr:hover {
+            background-color: #F9FAFB;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-approved {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-rejected {
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .chart-container {
+            height: 300px;
+        }
+
+        /* Add these styles */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .settings-card {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+
+        /* SweetAlert2 Styles */
+        .swal2-popup {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .swal2-title {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .swal2-html-container {
+            color: var(--dark-color);
+        }
+
+        .swal2-confirm,
+        .swal2-cancel {
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .swal2-confirm {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .swal2-confirm:hover {
+            background-color: #076B65;
+        }
+
+        .swal2-cancel {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .swal2-cancel:hover {
+            background-color: #E5E7EB;
+        }
+
+        .swal2-icon.swal2-success .swal2-icon-content {
+            border-color: var(--success-color);
+        }
+
+        .swal2-icon.swal2-success [class^="swal2-success-line"] {
+            background-color: var(--success-color);
+        }
+
+        .swal2-icon.swal2-error .swal2-icon-content {
+            border-color: var(--danger-color);
+        }
+
+        .swal2-icon.swal2-error [class^="swal2-x-mark-line"] {
+            background-color: var(--danger-color);
+        }
+
+        .swal2-icon.swal2-warning .swal2-icon-content {
+            border-color: var(--warning-color);
+        }
+
+        .swal2-icon.swal2-warning [class^="swal2-warning-line"] {
+            background-color: var(--warning-color);
+        }
+
+        .swal2-icon.swal2-info .swal2-icon-content {
+            border-color: var(--info-color);
+        }
+
+        .swal2-icon.swal2-info [class^="swal2-info-line"] {
+            background-color: var(--info-color);
+        }
+
+        .swal2-icon.swal2-question .swal2-icon-content {
+            border-color: var(--dark-color);
+        }
+
+        .swal2-icon.swal2-question [class^="swal2-question-mark"] {
+            background-color: var(--dark-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="picture/NutriPlan.png" alt="NutriPlan Logo" class="sidebar-logo">
+            <h1 class="sidebar-title">NutriPlan Admin</h1>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#dashboard" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#users" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        Người dùng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#recipes" class="nav-link">
+                        <i class="fas fa-utensils"></i>
+                        Công thức
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contacts" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        Liên hệ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#settings" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        Cài đặt
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <!-- Header -->
+            <header class="header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="user-menu">
+                    <img src="picture/gamer_1985783.png" alt="User Avatar" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">Admin</span>
+                        <span class="user-role">Quản trị viên</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3 class="stat-title">Tổng người dùng</h3>
+                        <div class="stat-icon" style="background-color: #EFF6FF; color: #3B82F6;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">1,234</div>
+                    <div class="stat-change">+12% so với tháng trước</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3 class="stat-title">Công thức mới</h3>
+                        <div class="stat-icon" style="background-color: #ECFDF5; color: #10B981;">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">56</div>
+                    <div class="stat-change">+8% so với tháng trước</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3 class="stat-title">Liên hệ mới</h3>
+                        <div class="stat-icon" style="background-color: #FEF3C7; color: #F59E0B;">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">23</div>
+                    <div class="stat-change">+5% so với tháng trước</div>
+                </div>
+                <!-- <div class="stat-card">
+                    <div class="stat-header">
+                        <h3 class="stat-title">Tổng lượt xem</h3>
+                        <div class="stat-icon" style="background-color: #FEE2E2; color: #EF4444;">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">45.6K</div>
+                    <div class="stat-change">+15% so với tháng trước</div>
+                </div> -->
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Thống kê người dùng</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="usersChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Phân bố người dùng</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="usersDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Users Table -->
+            <div class="data-table">
+                <div class="table-header">
+                    <h3 class="table-title">Người dùng gần đây</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-filter"></i>
+                            Lọc
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Thêm mới
+                        </button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Người dùng</th>
+                            <th>Email</th>
+                            <th>Ngày tham gia</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">
+                                    <div>
+                                        <div style="font-weight: 500;">Như Quỳnh</div>
+                                        <div style="font-size: 0.875rem; color: #6B7280;">@nhuquynh</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>nhuquynh1357.vnh@gmail.com</td>
+                            <td>03/06/2025</td>
+                            <td>
+                                <span class="status-badge status-approved">Đã xác thực</span>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="btn btn-secondary" style="padding: 0.25rem;">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-secondary" style="padding: 0.25rem;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Users Section -->
+        <section id="users" class="content-section">
+            <header class="header">
+                <h1 class="page-title">Quản lý người dùng</h1>
+            </header>
+            <div class="data-table">
+                <div class="table-header">
+                    <h3 class="table-title">Danh sách người dùng</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-filter"></i>
+                            Lọc
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Thêm mới
+                        </button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Người dùng</th>
+                            <th>Email</th>
+                            <th>Ngày tham gia</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- User data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Recipes Section -->
+        <section id="recipes" class="content-section">
+            <header class="header">
+                <h1 class="page-title">Quản lý công thức</h1>
+            </header>
+            <div class="data-table">
+                <div class="table-header">
+                    <h3 class="table-title">Danh sách công thức</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-filter"></i>
+                            Lọc
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Thêm mới
+                        </button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tên công thức</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Recipe data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Contacts Section -->
+        <section id="contacts" class="content-section">
+            <header class="header">
+                <h1 class="page-title">Quản lý liên hệ</h1>
+            </header>
+            <div class="data-table">
+                <div class="table-header">
+                    <h3 class="table-title">Danh sách liên hệ</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-filter"></i>
+                            Lọc
+                        </button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Người gửi</th>
+                            <th>Email</th>
+                            <th>Tiêu đề</th>
+                            <th>Ngày gửi</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Contact data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="content-section">
+            <header class="header">
+                <h1 class="page-title">Cài đặt</h1>
+            </header>
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>Cài đặt chung</h3>
+                    <form id="generalSettings">
+                        <div class="form-group">
+                            <label>Tên website</label>
+                            <input type="text" value="NutriPlan" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Email liên hệ</label>
+                            <input type="email" value="quantrinutriplan@gmail.com" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Forms -->
+    <!-- User Modal -->
+    <div id="userModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div class="modal-content" style="background: white; width: 500px; margin: 50px auto; padding: 20px; border-radius: 8px;">
+            <h2 id="userModalTitle">Thêm/Sửa người dùng</h2>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label>Tên hiển thị</label>
+                    <input type="text" id="userDisplayName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="userEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <select id="userGender" class="form-control">
+                        <option value="male">Nam</option>
+                        <option value="female">Nữ</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select id="userStatus" class="form-control">
+                        <option value="active">Hoạt động</option>
+                        <option value="inactive">Không hoạt động</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('userModal')">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Recipe Modal -->
+    <div id="recipeModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
+        <div class="modal-content" style="background: white; width: 90%; max-width: 800px; margin: 20px auto; padding: 20px; border-radius: 8px; max-height: 90vh; overflow-y: auto;">
+            <h2 id="recipeModalTitle" style="margin-bottom: 20px; color: var(--primary-color);">Thêm/Sửa công thức</h2>
+            <form id="recipeForm">
+                <input type="hidden" id="recipeId">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                    <div class="form-group">
+                        <label>Tên công thức</label>
+                        <input type="text" id="recipeName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Danh mục</label>
+                        <select id="recipeCategory" class="form-control" required>
+                            <option value="breakfast">Bữa sáng</option>
+                            <option value="lunch">Bữa trưa</option>
+                            <option value="dinner">Bữa tối</option>
+                            <option value="snack">Đồ ăn nhẹ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea id="recipeDescription" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>URL ảnh</label>
+                    <input type="url" id="recipeImageUrl" class="form-control">
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                    <div class="form-group">
+                        <label>Nguyên liệu (Mỗi dòng 1 nguyên liệu)</label>
+                        <textarea id="recipeIngredients" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Hướng dẫn (Mỗi dòng 1 bước)</label>
+                        <textarea id="recipeInstructions" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Thông tin dinh dưỡng</label>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                        <div>
+                            <label style="font-size: 0.875rem;">Calo</label>
+                            <input type="number" id="nutritionCalories" class="form-control" min="0">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.875rem;">Protein (g)</label>
+                            <input type="number" id="nutritionProtein" class="form-control" min="0">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.875rem;">Carbs (g)</label>
+                            <input type="number" id="nutritionCarbs" class="form-control" min="0">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.875rem;">Fat (g)</label>
+                            <input type="number" id="nutritionFat" class="form-control" min="0">
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('recipeModal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div class="modal-content" style="background: white; width: 500px; margin: 50px auto; padding: 20px; border-radius: 8px;">
+            <h2 id="contactModalTitle">Chi tiết liên hệ</h2>
+            <form id="contactForm">
+                <input type="hidden" id="contactId">
+                <div class="form-group">
+                    <label>Người gửi</label>
+                    <input type="text" id="contactName" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="contactEmail" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Tiêu đề</label>
+                    <input type="text" id="contactSubject" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Nội dung</label>
+                    <textarea id="contactMessage" class="form-control" rows="5" readonly></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select id="contactStatus" class="form-control">
+                        <option value="read">Đã đọc</option>
+                        <option value="unread">Chưa đọc</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('contactModal')">Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // SweetAlert2 Functions
+        function showSuccess(title, text) {
+            return Swal.fire({
+                title: title,
+                text: text,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#097770'
+            });
+        }
+
+        function showError(title, text) {
+            return Swal.fire({
+                title: title,
+                text: text,
+                icon: 'error',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#097770'
+            });
+        }
+
+        function showConfirm(title, text) {
+            return Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy',
+                confirmButtonColor: '#097770',
+                cancelButtonColor: '#6B7280'
+            });
+        }
+
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDi1RRzsP4TtZ1R-o9Tst5UX1t1C0BI2pA",
+            authDomain: "nutriplan-f335e.firebaseapp.com",
+            databaseURL: "https://nutriplan-f335e-default-rtdb.firebaseio.com",
+            projectId: "nutriplan-f335e",
+            storageBucket: "nutriplan-f335e.firebasestorage.app",
+            messagingSenderId: "594370805250",
+            appId: "1:594370805250:web:4b54c8e3e88b152858b11b",
+            measurementId: "G-5FT11ZN85P"
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        // Kiểm tra đăng nhập và quyền admin
+        firebase.auth().onAuthStateChanged((user) => {
+            console.log('Auth state changed:', user);
+
+            if (!user) {
+                console.log('No user logged in');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            console.log('User email:', user.email);
+
+            // Kiểm tra email admin
+            if (user.email === 'quantrinutriplan@gmail.com') {
+                console.log('Admin access granted');
+                // Hiển thị thông tin admin
+                document.querySelector('.user-name').textContent = user.displayName || 'Admin NutriPlan';
+                if (user.photoURL) {
+                    document.querySelector('.user-avatar').src = user.photoURL;
+                } else {
+                    // Chỉ set ảnh mặc định nếu không có ảnh từ user.photoURL
+                    document.querySelector('.user-avatar').src = 'picture/gamer_1985783.png';
+                }
+
+                // Load data sau khi xác thực thành công
+                loadDashboardData();
+
+            } else {
+                console.log('Access denied - not admin');
+                showError('Truy cập bị từ chối', 'Bạn không có quyền truy cập trang này!').then(() => {
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+
+        // Xử lý đăng xuất
+        document.querySelector('.user-menu').addEventListener('click', () => {
+            showConfirm('Xác nhận đăng xuất', 'Bạn có chắc chắn muốn đăng xuất không?')
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        firebase.auth().signOut()
+                            .then(() => {
+                                window.location.href = 'index.html';
+                            })
+                            .catch((error) => {
+                                showError('Lỗi đăng xuất', 'Có lỗi xảy ra: ' + error.message);
+                            });
+                    }
+                });
+        });
+
+        // Update Charts
+        function updateCharts() {
+            const usersRef = firebase.database().ref('users');
+            usersRef.once('value', (snapshot) => {
+                const users = snapshot.val();
+                if (!users) return;
+
+                // Thống kê theo tháng
+                const monthlyStats = {
+                    'T1': 0, 'T2': 0, 'T3': 0, 'T4': 0, 'T5': 0, 'T6': 0
+                };
+
+                Object.values(users).forEach(user => {
+                    if (user.lastLogin) {
+                        const date = new Date(user.lastLogin);
+                        const month = date.getMonth() + 1;
+                        if (month >= 1 && month <= 6) {
+                            monthlyStats[`T${month}`]++;
+                        }
+                    }
+                });
+
+                // Cập nhật biểu đồ người dùng theo tháng
+                const usersCtx = document.getElementById('usersChart').getContext('2d');
+                if (window.usersChart instanceof Chart) {
+                    window.usersChart.destroy();
+                }
+                window.usersChart = new Chart(usersCtx, {
+                    type: 'line',
+                    data: {
+                        labels: Object.keys(monthlyStats),
+                        datasets: [{
+                            label: 'Người dùng mới',
+                            data: Object.values(monthlyStats),
+                            borderColor: '#3B82F6',
+                            tension: 0.4,
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Thống kê giới tính
+                const genderData = {
+                    'Nam': 0,
+                    'Nữ': 0,
+                    'Khác': 0
+                };
+
+                Object.values(users).forEach(user => {
+                    if (user.basicInfo && user.basicInfo.gender) {
+                        const gender = user.basicInfo.gender === 'male' ? 'Nam' : 
+                                     user.basicInfo.gender === 'female' ? 'Nữ' : 'Khác';
+                        genderData[gender]++;
+                    } else {
+                        genderData['Khác']++;
+                    }
+                });
+
+                // Cập nhật biểu đồ phân bố giới tính
+                const distributionCtx = document.getElementById('usersDistributionChart').getContext('2d');
+                if (window.distributionChart instanceof Chart) {
+                    window.distributionChart.destroy();
+                }
+                window.distributionChart = new Chart(distributionCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(genderData),
+                        datasets: [{
+                            data: Object.values(genderData),
+                            backgroundColor: ['#3B82F6', '#EC4899', '#10B981']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+
+                // Cập nhật bảng người dùng gần đây
+                const recentUsers = Object.entries(users)
+                    .sort(([, a], [, b]) => new Date(b.lastLogin) - new Date(a.lastLogin))
+                    .slice(0, 5);
+
+                const tbody = document.querySelector('#dashboard .data-table tbody');
+                if (tbody) {
+                    tbody.innerHTML = '';
+                    recentUsers.forEach(([key, user]) => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <img src="${user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png'}" 
+                                         alt="User Avatar" 
+                                         style="width: 32px; height: 32px; border-radius: 50%;">
+                                    <div>
+                                        <div style="font-weight: 500;">${user.displayName || 'Chưa cập nhật'}</div>
+                                        <div style="font-size: 0.875rem; color: #6B7280;">@${user.email.split('@')[0]}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>${user.email}</td>
+                            <td>${new Date(user.lastLogin).toLocaleDateString('vi-VN')}</td>
+                            <td>
+                                <span class="status-badge status-${user.provider === 'google.com' ? 'approved' : 'pending'}">
+                                    ${user.provider === 'google.com' ? 'Đã xác thực' : 'Chờ xác thực'}
+                                </span>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="btn btn-secondary" style="padding: 0.25rem;" onclick="editUser('${key}')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-secondary" style="padding: 0.25rem;" onclick="deleteUser('${key}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            });
+        }
+
+        // Load Dashboard Data
+        function loadDashboardData() {
+            const usersRef = firebase.database().ref('users');
+            usersRef.once('value', (snapshot) => {
+                const users = snapshot.val();
+                if (users) {
+                    // Cập nhật tổng số người dùng
+                    const totalUsers = Object.keys(users).length;
+                    const totalUsersElement = document.querySelector('.stat-card:first-child .stat-value');
+                    if (totalUsersElement) {
+                        totalUsersElement.textContent = totalUsers;
+                    }
+                }
+            });
+
+            const recipesRef = firebase.database().ref('recipes');
+            recipesRef.once('value', (snapshot) => {
+                const recipes = snapshot.val();
+                if (recipes) {
+                    const totalRecipes = Object.keys(recipes).length;
+                    const totalRecipesElement = document.querySelector('.stat-card:nth-child(2) .stat-value');
+                    if (totalRecipesElement) {
+                        totalRecipesElement.textContent = totalRecipes;
+                    }
+                }
+            });
+
+            const contactsRef = firebase.database().ref('contacts');
+            contactsRef.once('value', (snapshot) => {
+                const contacts = snapshot.val();
+                if (contacts) {
+                    const totalContacts = Object.keys(contacts).length;
+                    const totalContactsElement = document.querySelector('.stat-card:nth-child(3) .stat-value');
+                    if (totalContactsElement) {
+                        totalContactsElement.textContent = totalContacts;
+                    }
+                }
+            });
+
+            updateCharts();
+        }
+
+        // Load Users Data
+        function loadUsers() {
+            const usersRef = firebase.database().ref('users');
+            usersRef.on('value', (snapshot) => {
+                const users = snapshot.val();
+                if (users) {
+                    const tbody = document.querySelector('#users .data-table tbody');
+                    if (tbody) {
+                        tbody.innerHTML = '';
+                        Object.entries(users).forEach(([key, user]) => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <img src="${user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png'}" 
+                                             alt="User Avatar" 
+                                             style="width: 32px; height: 32px; border-radius: 50%;">
+                                        <div>
+                                            <div style="font-weight: 500;">${user.displayName || 'Chưa cập nhật'}</div>
+                                            <div style="font-size: 0.875rem; color: #6B7280;">@${user.email.split('@')[0]}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${user.email}</td>
+                                <td>${new Date(user.lastLogin).toLocaleDateString('vi-VN')}</td>
+                                <td>
+                                    <span class="status-badge status-${user.provider === 'google.com' ? 'approved' : 'pending'}">
+                                        ${user.provider === 'google.com' ? 'Đã xác thực' : 'Chờ xác thực'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn btn-secondary" style="padding: 0.25rem;" onclick="editUser('${key}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-secondary" style="padding: 0.25rem;" onclick="deleteUser('${key}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    }
+                }
+            });
+        }
+
+        // Load Recipes Data
+        function loadRecipes() {
+            const recipesRef = firebase.database().ref('recipes');
+            recipesRef.on('value', (snapshot) => {
+                const recipes = snapshot.val();
+                const tbody = document.querySelector('#recipes .data-table tbody');
+                if (tbody) {
+                    tbody.innerHTML = '';
+                    if (recipes) {
+                        Object.entries(recipes).forEach(([key, recipe]) => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <img src="${recipe.imageUrl || 'https://via.placeholder.com/50'}" 
+                                             alt="Recipe Image" 
+                                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                        <div style="font-weight: 500;">${recipe.name || 'Chưa có tên'}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn btn-secondary" style="padding: 0.25rem;" onclick="editRecipe('${key}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-secondary" style="padding: 0.25rem;" onclick="deleteRecipe('${key}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    } else {
+                         tr.innerHTML = `<td colspan="2" style="text-align: center;">Chưa có công thức nào.</td>`;
+                    }
+                }
+            }, (error) => {
+                 showError('Lỗi tải công thức', 'Có lỗi xảy ra khi tải danh sách công thức: ' + error.message);
+            });
+        }
+
+        // Load Contacts Data
+        function loadContacts() {
+            const contactsRef = firebase.database().ref('contacts');
+            contactsRef.on('value', (snapshot) => {
+                const contacts = snapshot.val();
+                if (contacts) {
+                    const tbody = document.querySelector('#contacts .data-table tbody');
+                    if (tbody) {
+                        tbody.innerHTML = '';
+                        Object.entries(contacts).forEach(([key, contact]) => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>${contact.name || 'Ẩn danh'}</td>
+                                <td>${contact.email}</td>
+                                <td>${contact.subject || 'Không có tiêu đề'}</td>
+                                <td>${new Date(contact.createdAt).toLocaleDateString('vi-VN')}</td>
+                                <td>
+                                    <span class="status-badge status-${contact.status || 'pending'}">
+                                        ${contact.status === 'read' ? 'Đã đọc' : 'Chưa đọc'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn btn-secondary" style="padding: 0.25rem;" onclick="viewContact('${key}')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-secondary" style="padding: 0.25rem;" onclick="deleteContact('${key}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    }
+                }
+            });
+        }
+
+        // Xử lý menu
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links and sections
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Show corresponding section
+                const target = link.getAttribute('href').substring(1);
+                const section = document.getElementById(target);
+                if (section) {
+                    section.classList.add('active');
+                    
+                    // Load data for the section
+                    switch(target) {
+                        case 'dashboard':
+                            loadDashboardData();
+                            break;
+                        case 'users':
+                            loadUsers();
+                            break;
+                        case 'recipes':
+                            loadRecipes();
+                            break;
+                        case 'contacts':
+                            loadContacts();
+                            break;
+                    }
+                }
+            });
+        });
+
+        // Xử lý form cài đặt
+        document.getElementById('generalSettings')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // TODO: Implement settings save
+            alert('Cài đặt đã được lưu!');
+        });
+
+        // Helper functions
+        function editUser(userId) {
+            console.log('Edit user:', userId);
+            // TODO: Implement edit user
+             showError('Chưa hỗ trợ', 'Chức năng sửa người dùng đang được phát triển.');
+        }
+
+        function deleteUser(userId) {
+            showConfirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa người dùng này?')
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        firebase.database().ref(`users/${userId}`).remove()
+                            .then(() => {
+                                showSuccess('Thành công', 'Xóa người dùng thành công!');
+                                loadUsers(); // Tải lại danh sách sau khi xóa
+                            })
+                            .catch((error) => {
+                                showError('Lỗi', 'Có lỗi xảy ra khi xóa người dùng: ' + error.message);
+                            });
+                    }
+                });
+        }
+
+        function editRecipe(recipeId) {
+            document.getElementById('recipeModalTitle').textContent = 'Sửa công thức';
+            const recipeRef = firebase.database().ref(`recipes/${recipeId}`);
+            recipeRef.once('value', (snapshot) => {
+                const recipe = snapshot.val();
+                if (recipe) {
+                    // Get all form elements
+                    const elements = {
+                        id: document.getElementById('recipeId'),
+                        name: document.getElementById('recipeName'),
+                        category: document.getElementById('recipeCategory'),
+                        description: document.getElementById('recipeDescription'),
+                        imageUrl: document.getElementById('recipeImageUrl'),
+                        ingredients: document.getElementById('recipeIngredients'),
+                        instructions: document.getElementById('recipeInstructions'),
+                        nutritionCalories: document.getElementById('nutritionCalories'),
+                        nutritionProtein: document.getElementById('nutritionProtein'),
+                        nutritionCarbs: document.getElementById('nutritionCarbs'),
+                        nutritionFat: document.getElementById('nutritionFat')
+                    };
+
+                    // Check if all elements exist
+                    const missingElements = Object.entries(elements)
+                        .filter(([_, element]) => !element)
+                        .map(([name]) => name);
+
+                    if (missingElements.length > 0) {
+                        showError('Lỗi', `Không tìm thấy các trường: ${missingElements.join(', ')}`);
+                        return;
+                    }
+
+                    // Set values safely
+                    elements.id.value = recipeId;
+                    elements.name.value = recipe.name || '';
+                    elements.category.value = recipe.category || 'breakfast';
+                    elements.description.value = recipe.description || '';
+                    elements.imageUrl.value = recipe.imageUrl || '';
+                    elements.ingredients.value = Array.isArray(recipe.ingredients) ? recipe.ingredients.join('\n') : '';
+                    elements.instructions.value = Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '';
+
+                    if (recipe.nutrition) {
+                        elements.nutritionCalories.value = recipe.nutrition.calories || '';
+                        elements.nutritionProtein.value = recipe.nutrition.protein || '';
+                        elements.nutritionCarbs.value = recipe.nutrition.carbs || '';
+                        elements.nutritionFat.value = recipe.nutrition.fat || '';
+                    } else {
+                        elements.nutritionCalories.value = '';
+                        elements.nutritionProtein.value = '';
+                        elements.nutritionCarbs.value = '';
+                        elements.nutritionFat.value = '';
+                    }
+
+                    openModal('recipeModal');
+                } else {
+                    showError('Lỗi', 'Không tìm thấy công thức để sửa.');
+                }
+            }, (error) => {
+                showError('Lỗi tải công thức', 'Có lỗi xảy ra khi tải dữ liệu công thức: ' + error.message);
+            });
+        }
+
+        function deleteRecipe(recipeId) {
+            showConfirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa công thức này?')
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        firebase.database().ref(`recipes/${recipeId}`).remove()
+                            .then(() => {
+                                showSuccess('Thành công', 'Xóa công thức thành công!');
+                                loadRecipes(); // Tải lại danh sách sau khi xóa
+                            })
+                            .catch((error) => {
+                                showError('Lỗi', 'Có lỗi xảy ra khi xóa công thức: ' + error.message);
+                            });
+                    }
+                });
+        }
+
+        function viewContact(contactId) {
+            document.getElementById('contactModalTitle').textContent = 'Chi tiết liên hệ';
+            const contactRef = firebase.database().ref(`contacts/${contactId}`);
+            contactRef.once('value', (snapshot) => {
+                const contact = snapshot.val();
+                if (contact) {
+                    document.getElementById('contactId').value = contactId;
+                    document.getElementById('contactName').value = contact.name || 'Ẩn danh';
+                    document.getElementById('contactEmail').value = contact.email || '';
+                    document.getElementById('contactSubject').value = contact.subject || '';
+                    document.getElementById('contactMessage').value = contact.message || '';
+                    document.getElementById('contactStatus').value = contact.status || 'unread';
+                    openModal('contactModal');
+                }
+            });
+        }
+
+        function deleteContact(contactId) {
+            showConfirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa liên hệ này?')
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        firebase.database().ref(`contacts/${contactId}`).remove()
+                            .then(() => {
+                                showSuccess('Thành công', 'Xóa liên hệ thành công!');
+                                loadContacts(); // Tải lại danh sách sau khi xóa
+                            })
+                            .catch((error) => {
+                                showError('Lỗi', 'Có lỗi xảy ra khi xóa liên hệ: ' + error.message);
+                            });
+                    }
+                });
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // User Functions
+        function addUser() {
+            document.getElementById('userModalTitle').textContent = 'Thêm người dùng mới';
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            openModal('userModal');
+        }
+
+        function editUser(userId) {
+            document.getElementById('userModalTitle').textContent = 'Sửa thông tin người dùng';
+            const userRef = firebase.database().ref(`users/${userId}`);
+            userRef.once('value', (snapshot) => {
+                const user = snapshot.val();
+                if (user) {
+                    document.getElementById('userId').value = userId;
+                    document.getElementById('userDisplayName').value = user.displayName || '';
+                    document.getElementById('userEmail').value = user.email || '';
+                    document.getElementById('userGender').value = user.basicInfo?.gender || 'other';
+                    document.getElementById('userStatus').value = user.status || 'active';
+                    openModal('userModal');
+                }
+            });
+        }
+
+        function deleteUser(userId) {
+            if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
+                firebase.database().ref(`users/${userId}`).remove()
+                    .then(() => {
+                        alert('Xóa người dùng thành công!');
+                        loadUsers();
+                    })
+                    .catch((error) => {
+                        alert('Có lỗi xảy ra: ' + error.message);
+                    });
+            }
+        }
+
+        // Recipe Functions
+        function addRecipe() {
+            document.getElementById('recipeModalTitle').textContent = 'Thêm công thức mới';
+            document.getElementById('recipeForm').reset();
+            document.getElementById('recipeId').value = '';
+            openModal('recipeModal');
+        }
+
+        function editRecipe(recipeId) {
+            document.getElementById('recipeModalTitle').textContent = 'Sửa công thức';
+            const recipeRef = firebase.database().ref(`recipes/${recipeId}`);
+            recipeRef.once('value', (snapshot) => {
+                const recipe = snapshot.val();
+                if (recipe) {
+                    // Get all form elements
+                    const elements = {
+                        id: document.getElementById('recipeId'),
+                        name: document.getElementById('recipeName'),
+                        category: document.getElementById('recipeCategory'),
+                        description: document.getElementById('recipeDescription'),
+                        imageUrl: document.getElementById('recipeImageUrl'),
+                        ingredients: document.getElementById('recipeIngredients'),
+                        instructions: document.getElementById('recipeInstructions'),
+                        nutritionCalories: document.getElementById('nutritionCalories'),
+                        nutritionProtein: document.getElementById('nutritionProtein'),
+                        nutritionCarbs: document.getElementById('nutritionCarbs'),
+                        nutritionFat: document.getElementById('nutritionFat')
+                    };
+
+                    // Check if all elements exist
+                    const missingElements = Object.entries(elements)
+                        .filter(([_, element]) => !element)
+                        .map(([name]) => name);
+
+                    if (missingElements.length > 0) {
+                        showError('Lỗi', `Không tìm thấy các trường: ${missingElements.join(', ')}`);
+                        return;
+                    }
+
+                    // Set values safely
+                    elements.id.value = recipeId;
+                    elements.name.value = recipe.name || '';
+                    elements.category.value = recipe.category || 'breakfast';
+                    elements.description.value = recipe.description || '';
+                    elements.imageUrl.value = recipe.imageUrl || '';
+                    elements.ingredients.value = Array.isArray(recipe.ingredients) ? recipe.ingredients.join('\n') : '';
+                    elements.instructions.value = Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '';
+
+                    if (recipe.nutrition) {
+                        elements.nutritionCalories.value = recipe.nutrition.calories || '';
+                        elements.nutritionProtein.value = recipe.nutrition.protein || '';
+                        elements.nutritionCarbs.value = recipe.nutrition.carbs || '';
+                        elements.nutritionFat.value = recipe.nutrition.fat || '';
+                    } else {
+                        elements.nutritionCalories.value = '';
+                        elements.nutritionProtein.value = '';
+                        elements.nutritionCarbs.value = '';
+                        elements.nutritionFat.value = '';
+                    }
+
+                    openModal('recipeModal');
+                } else {
+                    showError('Lỗi', 'Không tìm thấy công thức để sửa.');
+                }
+            }, (error) => {
+                showError('Lỗi tải công thức', 'Có lỗi xảy ra khi tải dữ liệu công thức: ' + error.message);
+            });
+        }
+
+        function deleteRecipe(recipeId) {
+            if (confirm('Bạn có chắc chắn muốn xóa công thức này?')) {
+                firebase.database().ref(`recipes/${recipeId}`).remove()
+                    .then(() => {
+                        alert('Xóa công thức thành công!');
+                        loadRecipes();
+                    })
+                    .catch((error) => {
+                        alert('Có lỗi xảy ra: ' + error.message);
+                    });
+            }
+        }
+
+        // Contact Functions
+        function viewContact(contactId) {
+            document.getElementById('contactModalTitle').textContent = 'Chi tiết liên hệ';
+            const contactRef = firebase.database().ref(`contacts/${contactId}`);
+            contactRef.once('value', (snapshot) => {
+                const contact = snapshot.val();
+                if (contact) {
+                    document.getElementById('contactId').value = contactId;
+                    document.getElementById('contactName').value = contact.name || 'Ẩn danh';
+                    document.getElementById('contactEmail').value = contact.email || '';
+                    document.getElementById('contactSubject').value = contact.subject || '';
+                    document.getElementById('contactMessage').value = contact.message || '';
+                    document.getElementById('contactStatus').value = contact.status || 'unread';
+                    openModal('contactModal');
+                }
+            });
+        }
+
+        function deleteContact(contactId) {
+            showConfirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa liên hệ này?')
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        firebase.database().ref(`contacts/${contactId}`).remove()
+                            .then(() => {
+                                showSuccess('Thành công', 'Xóa liên hệ thành công!');
+                                loadContacts(); // Tải lại danh sách sau khi xóa
+                            })
+                            .catch((error) => {
+                                showError('Lỗi', 'Có lỗi xảy ra khi xóa liên hệ: ' + error.message);
+                            });
+                    }
+                });
+        }
+
+        // Form Submissions
+        document.getElementById('userForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userId = document.getElementById('userId').value;
+            const userData = {
+                displayName: document.getElementById('userDisplayName').value,
+                email: document.getElementById('userEmail').value,
+                basicInfo: {
+                    gender: document.getElementById('userGender').value
+                },
+                status: document.getElementById('userStatus').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            // Handle creating a new user vs updating existing
+            let userRef;
+            if (userId) {
+                userRef = firebase.database().ref(`users/${userId}`);
+            } else {
+                // In a real application, adding users this way directly might be risky.
+                // Consider using Firebase Authentication for new user creation.
+                userRef = firebase.database().ref('users').push();
+            }
+
+            userRef.update(userData)
+                .then(() => {
+                    // Thay thế alert() bằng SweetAlert2
+                    showSuccess('Thành công', userId ? 'Cập nhật người dùng thành công!' : 'Thêm người dùng mới thành công!');
+                    closeModal('userModal');
+                    loadUsers(); // Tải lại danh sách sau khi cập nhật
+                })
+                .catch((error) => {
+                    showError('Lỗi', 'Có lỗi xảy ra: ' + error.message);
+                });
+        });
+
+        document.getElementById('recipeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const recipeId = document.getElementById('recipeId').value;
+            
+            // Get values from new fields
+            const imageUrl = document.getElementById('recipeImageUrl').value;
+            // Convert textarea value (one item per line) to array
+            const ingredients = document.getElementById('recipeIngredients').value.split('\n').map(item => item.trim()).filter(item => item);
+            const instructions = document.getElementById('recipeInstructions').value.split('\n').map(item => item.trim()).filter(item => item);
+            
+            const nutrition = {
+                calories: parseFloat(document.getElementById('nutritionCalories').value) || 0,
+                protein: parseFloat(document.getElementById('nutritionProtein').value) || 0,
+                carbs: parseFloat(document.getElementById('nutritionCarbs').value) || 0,
+                fat: parseFloat(document.getElementById('nutritionFat').value) || 0
+            };
+
+            const recipeData = {
+                name: document.getElementById('recipeName').value,
+                category: document.getElementById('recipeCategory').value,
+                description: document.getElementById('recipeDescription').value,
+                imageUrl: imageUrl,
+                ingredients: ingredients,
+                instructions: instructions,
+                nutrition: nutrition,
+                // Ensure createdAt is only set on new recipes, updatedAt on both
+                ...(recipeId ? {} : { createdAt: new Date().toISOString() }),
+                updatedAt: new Date().toISOString()
+            };
+
+            const recipeRef = recipeId ? 
+                firebase.database().ref(`recipes/${recipeId}`) :
+                firebase.database().ref('recipes').push();
+
+            recipeRef.update(recipeData)
+                .then(() => {
+                    showSuccess('Thành công', recipeId ? 'Cập nhật công thức thành công!' : 'Thêm công thức mới thành công!');
+                    closeModal('recipeModal');
+                    loadRecipes(); // Tải lại danh sách sau khi cập nhật
+                })
+                .catch((error) => {
+                    showError('Lỗi', 'Có lỗi xảy ra: ' + error.message);
+                });
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const contactId = document.getElementById('contactId').value;
+            const contactData = {
+                status: document.getElementById('contactStatus').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            firebase.database().ref(`contacts/${contactId}`).update(contactData)
+                .then(() => {
+                    // Thay thế alert() bằng SweetAlert2
+                    showSuccess('Thành công', 'Cập nhật trạng thái liên hệ thành công!');
+                    closeModal('contactModal');
+                    loadContacts(); // Tải lại danh sách sau khi cập nhật
+                })
+                .catch((error) => {
+                    showError('Lỗi', 'Có lỗi xảy ra khi cập nhật liên hệ: ' + error.message);
+                });
+        });
+
+        // Update button click handlers
+        document.querySelectorAll('.btn-primary').forEach(btn => {
+            if (btn.textContent.includes('Thêm mới')) {
+                const section = btn.closest('section')?.id; // Use optional chaining
+                btn.onclick = () => {
+                    switch(section) {
+                        case 'users':
+                            addUser();
+                            break;
+                        case 'recipes':
+                            addRecipe();
+                            break;
+                    }
+                };
+            }
+        });
+    </script>
+</body>
+</html> 
