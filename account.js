@@ -475,7 +475,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateLoginState(user) {
         if (user) {
             let displayName;
-            const photoURL = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
             if (user.providerData && user.providerData[0]) {
                 const provider = user.providerData[0].providerId;
                 if (provider === 'password') displayName = user.email.split('@')[0];
@@ -484,17 +483,54 @@ document.addEventListener('DOMContentLoaded', function() {
                 displayName = user.displayName || user.email.split('@')[0] || 'Tài khoản';
             }
             const formattedName = displayName.length > 5 ? displayName.substring(0, 5) + '...' : displayName;
-            loginBtn.innerHTML = `<img src="${photoURL}" alt="Avatar" class="user-avatar"><span>${formattedName}</span>`;
+            
+            // Get avatar from database with priority for custom avatar
+            firebase.database().ref('users/' + user.uid).once('value')
+                .then((snapshot) => {
+                    const userData = snapshot.val();
+                    let avatarSrc;
+                    
+                    // Priority: Custom avatar > Google Auth avatar > Default avatar
+                    if (userData?.photoURL && !userData.photoURL.includes('default-avatar')) {
+                        // User has custom avatar
+                        avatarSrc = userData.photoURL;
+                    } else if (user.photoURL && !user.photoURL.includes('default-avatar')) {
+                        // Use Google Auth avatar
+                        avatarSrc = user.photoURL;
+                    } else {
+                        // Fallback to default avatar
+                        avatarSrc = 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                    }
+                    
+                    loginBtn.innerHTML = `<img src="${avatarSrc}" alt="Avatar" class="user-avatar"><span>${formattedName}</span>`;
+                })
+                .catch(() => {
+                    // Fallback to Google Auth avatar or default
+                    const photoURL = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                    loginBtn.innerHTML = `<img src="${photoURL}" alt="Avatar" class="user-avatar"><span>${formattedName}</span>`;
+                });
+            
             loginBtn.href = '#';
+            
+            // Only update basic info, don't override custom photoURL
             const userData = {
                 uid: user.uid,
                 email: user.email,
                 displayName: user.displayName || displayName,
-                photoURL: photoURL,
                 lastLogin: new Date().toISOString(),
                 provider: user.providerData[0]?.providerId || 'unknown'
             };
-            firebase.database().ref('users/' + user.uid).update(userData)
+            
+            // Check if user already has custom photoURL before updating
+            firebase.database().ref('users/' + user.uid).once('value')
+                .then((snapshot) => {
+                    const existingData = snapshot.val();
+                    // Only set photoURL if user doesn't have custom avatar
+                    if (!existingData || !existingData.photoURL || existingData.photoURL.includes('default-avatar')) {
+                        userData.photoURL = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                    }
+                    return firebase.database().ref('users/' + user.uid).update(userData);
+                })
                 .then(() => { /* console.log('User data saved successfully'); */ })
                 .catch((error) => { /* console.error('Error saving user data:', error); */ });
         } else {
@@ -526,9 +562,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     userDropdown.classList.remove('show');
                 }).catch(() => {
                     showErrorAlert('Lỗi!', 'Có lỗi xảy ra khi đăng xuất.');
-                });
-            }
-        });
+                        });
+    }
+
+    });
     });
 
     // --- SWIPER ---
@@ -590,7 +627,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const accountName = document.getElementById('accountName');
             const accountEmail = document.getElementById('accountEmail');
             
-            if (accountAvatar) accountAvatar.src = userData.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+            // Set avatar from photoURL
+            if (accountAvatar) {
+                const avatarSrc = userData.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                accountAvatar.src = avatarSrc;
+            }
             if (accountName) accountName.textContent = userData.displayName || '...';
             if (accountEmail) accountEmail.textContent = userData.email || '...';
         
@@ -677,6 +718,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Update settings section (display email)
             const settingsEmailSpan = document.getElementById('settingsEmail');
+            
+            // Show/hide change password button based on account type
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            if (changePasswordBtn) {
+                const currentUser = firebase.auth().currentUser;
+                if (currentUser && currentUser.providerData && currentUser.providerData[0]?.providerId === 'password') {
+                    changePasswordBtn.style.display = 'inline-block';
+                } else {
+                    changePasswordBtn.style.display = 'none';
+                }
+            }
             if (settingsEmailSpan) {
                 settingsEmailSpan.textContent = userData.email || '...';
             }
@@ -1333,6 +1385,32 @@ function showErrorAlert(title, message) {
     });
 }
 
+function showLoadingAlert(text = 'Vui lòng đợi trong giây lát') {
+    Swal.fire({ 
+        title: 'Đang xử lý...', 
+        text, 
+        allowOutsideClick: false, 
+        didOpen: () => { 
+            Swal.showLoading(); 
+        } 
+    });
+}
+
+// Function to update avatar in navigation
+function updateAvatarInNavigation(avatarSrc) {
+    // Update in navigation dropdown
+    const navAvatar = document.querySelector('.login-btn .user-avatar');
+    if (navAvatar) {
+        navAvatar.src = avatarSrc;
+    }
+    
+    // Update in user dropdown if exists
+    const userDropdownAvatar = document.querySelector('.user-dropdown .user-avatar');
+    if (userDropdownAvatar) {
+        userDropdownAvatar.src = avatarSrc;
+    }
+}
+
 // Hàm sửa bữa ăn
 function saveEditMeal() {
     const userId = firebase.auth().currentUser?.uid;
@@ -1932,8 +2010,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Add functionality for changing password
 document.addEventListener('DOMContentLoaded', function() {
-    // Revised selector to target the password change button more reliably
-    const changePasswordBtn = document.querySelector('#settings .settings-group .settings-item button');
+    // Get password change button by ID
+    const changePasswordBtn = document.getElementById('changePasswordBtn');
     const changePasswordModal = document.getElementById('changePasswordModal');
     const changePasswordForm = document.getElementById('changePasswordForm');
 
@@ -1945,13 +2023,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 showErrorAlert('Lỗi!', 'Vui lòng đăng nhập để đổi mật khẩu');
                 return;
             }
-            // Only show for email/password users
+            
+            // Check if user is logged in with email/password
             if (currentUser.providerData && currentUser.providerData[0]?.providerId === 'password') {
-                 changePasswordModal.classList.add('show');
-                 // Reset form and clear previous errors/messages
-                 changePasswordForm.reset();
+                if (changePasswordModal) {
+                    changePasswordModal.classList.add('show');
+                    // Reset form and clear previous errors/messages
+                    if (changePasswordForm) {
+                        changePasswordForm.reset();
+                    }
+                }
             } else {
-                 showErrorAlert('Lỗi!', 'Chức năng này chỉ dành cho tài khoản đăng nhập bằng Email và Mật khẩu.');
+                showErrorAlert('Thông báo!', 'Bạn đang đăng nhập bằng Google. Để đổi mật khẩu, vui lòng sử dụng tài khoản đăng nhập bằng Email và Mật khẩu.');
             }
         });
     }
@@ -2030,6 +2113,216 @@ document.addEventListener('DOMContentLoaded', function() {
                             errorMessage = error.message;
                     }
                     showErrorAlert('Lỗi!', errorMessage);
+                });
+        });
+    }
+
+    // Avatar Upload Functionality
+    const changeAvatarModal = document.getElementById('changeAvatarModal');
+    const editAvatarBtn = document.getElementById('editAvatarBtn');
+    const avatarFileInput = document.getElementById('avatarFileInput');
+    const selectAvatarBtn = document.getElementById('selectAvatarBtn');
+    const removeAvatarBtn = document.getElementById('removeAvatarBtn');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const saveAvatarBtn = document.getElementById('saveAvatarBtn');
+    const avatarPreviewContainer = document.querySelector('.avatar-preview');
+
+    let currentAvatarBase64 = null;
+    let originalAvatarSrc = null;
+
+    // Open avatar change modal
+    if (editAvatarBtn) {
+        editAvatarBtn.addEventListener('click', function() {
+            const currentUser = firebase.auth().currentUser;
+            if (!currentUser) {
+                showErrorAlert('Lỗi!', 'Vui lòng đăng nhập để thay đổi ảnh đại diện');
+                return;
+            }
+            
+            // Store original avatar for cancel
+            originalAvatarSrc = avatarPreview.src;
+            currentAvatarBase64 = null;
+            
+            // Set current avatar in preview
+            const currentAvatar = document.getElementById('accountAvatar');
+            if (currentAvatar && currentAvatar.src) {
+                avatarPreview.src = currentAvatar.src;
+            }
+            
+            changeAvatarModal.classList.add('show');
+        });
+    }
+
+    // Close avatar modal
+    if (changeAvatarModal) {
+        changeAvatarModal.querySelector('.close').addEventListener('click', function() {
+            changeAvatarModal.classList.remove('show');
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === changeAvatarModal) {
+                changeAvatarModal.classList.remove('show');
+            }
+        });
+    }
+
+    // Select avatar button
+    if (selectAvatarBtn) {
+        selectAvatarBtn.addEventListener('click', function() {
+            avatarFileInput.click();
+        });
+    }
+
+    // Avatar preview click
+    if (avatarPreviewContainer) {
+        avatarPreviewContainer.addEventListener('click', function() {
+            avatarFileInput.click();
+        });
+    }
+
+    // File input change
+    if (avatarFileInput) {
+        avatarFileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show loading state
+            selectAvatarBtn.innerHTML = '<svg class="spinner" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> Đang xử lý...';
+            selectAvatarBtn.disabled = true;
+
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                showErrorAlert('Lỗi!', 'Chỉ hỗ trợ định dạng ảnh: JPG, PNG, GIF');
+                resetAvatarButton();
+                return;
+            }
+
+            // Validate file size (5MB)
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file.size > maxSize) {
+                showErrorAlert('Lỗi!', 'Kích thước ảnh không được vượt quá 5MB');
+                resetAvatarButton();
+                return;
+            }
+
+            // Read file and convert to base64 with resize
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Create canvas for resizing
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Set canvas size (max 300x300 for avatar)
+                    const maxSize = 300;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > maxSize) {
+                            height = (height * maxSize) / width;
+                            width = maxSize;
+                        }
+                    } else {
+                        if (height > maxSize) {
+                            width = (width * maxSize) / height;
+                            height = maxSize;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    // Draw resized image
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Convert to base64 with quality 0.8
+                    const base64 = canvas.toDataURL('image/jpeg', 0.8);
+                    currentAvatarBase64 = base64;
+                    avatarPreview.src = base64;
+                    
+                    // Reset button state
+                    resetAvatarButton();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Function to reset avatar button state
+    function resetAvatarButton() {
+        selectAvatarBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Chọn ảnh từ máy tính
+        `;
+        selectAvatarBtn.disabled = false;
+    }
+
+    // Remove avatar button
+    if (removeAvatarBtn) {
+        removeAvatarBtn.addEventListener('click', function() {
+            currentAvatarBase64 = null;
+            avatarPreview.src = 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+        });
+    }
+
+
+
+    // Save avatar
+    if (saveAvatarBtn) {
+        saveAvatarBtn.addEventListener('click', function() {
+            const currentUser = firebase.auth().currentUser;
+            if (!currentUser) {
+                showErrorAlert('Lỗi!', 'Vui lòng đăng nhập để lưu ảnh đại diện');
+                return;
+            }
+
+            showLoadingAlert('Đang lưu ảnh đại diện...');
+
+            // Update avatar in database
+            const userRef = firebase.database().ref(`users/${currentUser.uid}`);
+            const updateData = {};
+            
+            if (currentAvatarBase64) {
+                updateData.photoURL = currentAvatarBase64;
+            } else {
+                updateData.photoURL = 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+            }
+
+            userRef.update(updateData)
+                .then(() => {
+                    // Update avatar in UI
+                    const accountAvatar = document.getElementById('accountAvatar');
+                    if (accountAvatar) {
+                        accountAvatar.src = avatarPreview.src;
+                    }
+                    
+                                         // Update avatar in navigation if exists
+                     const navAvatar = document.querySelector('.login-btn .user-avatar');
+                     if (navAvatar) {
+                         navAvatar.src = avatarPreview.src;
+                     }
+                     
+                     // Update avatar in all other places
+                     updateAvatarInNavigation(avatarPreview.src);
+
+                    Swal.close();
+                    showSuccessAlert('Thành công!', 'Ảnh đại diện đã được cập nhật.');
+                    changeAvatarModal.classList.remove('show');
+                    avatarFileInput.value = '';
+                })
+                .catch((error) => {
+                    Swal.close();
+                    console.error('Error updating avatar:', error);
+                    showErrorAlert('Lỗi!', 'Không thể lưu ảnh đại diện. Vui lòng thử lại.');
                 });
         });
     }

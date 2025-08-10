@@ -497,12 +497,6 @@
                         Liên hệ
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#settings" class="nav-link">
-                        <i class="fas fa-cog"></i>
-                        Cài đặt
-                    </a>
-                </li>
             </ul>
         </nav>
     </aside>
@@ -592,14 +586,7 @@
                 <div class="table-header">
                     <h3 class="table-title">Người dùng gần đây</h3>
                     <div class="table-actions">
-                        <button class="btn btn-secondary">
-                            <i class="fas fa-filter"></i>
-                            Lọc
-                        </button>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus"></i>
-                            Thêm mới
-                        </button>
+                        
                     </div>
                 </div>
                 <table>
@@ -653,10 +640,6 @@
                 <div class="table-header">
                     <h3 class="table-title">Danh sách người dùng</h3>
                     <div class="table-actions">
-                        <button class="btn btn-secondary">
-                            <i class="fas fa-filter"></i>
-                            Lọc
-                        </button>
                         <button class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             Thêm mới
@@ -689,10 +672,7 @@
                 <div class="table-header">
                     <h3 class="table-title">Danh sách công thức</h3>
                     <div class="table-actions">
-                        <button class="btn btn-secondary">
-                            <i class="fas fa-filter"></i>
-                            Lọc
-                        </button>
+                       
                         <button class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             Thêm mới
@@ -722,10 +702,7 @@
                 <div class="table-header">
                     <h3 class="table-title">Danh sách liên hệ</h3>
                     <div class="table-actions">
-                        <button class="btn btn-secondary">
-                            <i class="fas fa-filter"></i>
-                            Lọc
-                        </button>
+                      
                     </div>
                 </div>
                 <table>
@@ -746,28 +723,7 @@
             </div>
         </section>
 
-        <!-- Settings Section -->
-        <section id="settings" class="content-section">
-            <header class="header">
-                <h1 class="page-title">Cài đặt</h1>
-            </header>
-            <div class="settings-grid">
-                <div class="settings-card">
-                    <h3>Cài đặt chung</h3>
-                    <form id="generalSettings">
-                        <div class="form-group">
-                            <label>Tên website</label>
-                            <input type="text" value="NutriPlan" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Email liên hệ</label>
-                            <input type="email" value="quantrinutriplan@gmail.com" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-                    </form>
-                </div>
-            </div>
-        </section>
+
     </main>
 
     <!-- Modal Forms -->
@@ -968,7 +924,7 @@
 
             if (!user) {
                 console.log('No user logged in');
-                window.location.href = 'index.html';
+                window.location.href = 'auth.html';
                 return;
             }
 
@@ -992,7 +948,7 @@
             } else {
                 console.log('Access denied - not admin');
                 showError('Truy cập bị từ chối', 'Bạn không có quyền truy cập trang này!').then(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = 'auth.html';
                 });
             }
         });
@@ -1004,7 +960,7 @@
                     if (result.isConfirmed) {
                         firebase.auth().signOut()
                             .then(() => {
-                                window.location.href = 'index.html';
+                                window.location.href = 'auth.html';
                             })
                             .catch((error) => {
                                 showError('Lỗi đăng xuất', 'Có lỗi xảy ra: ' + error.message);
@@ -1367,12 +1323,7 @@
             });
         });
 
-        // Xử lý form cài đặt
-        document.getElementById('generalSettings')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // TODO: Implement settings save
-            alert('Cài đặt đã được lưu!');
-        });
+
 
         // Helper functions
         function editUser(userId) {

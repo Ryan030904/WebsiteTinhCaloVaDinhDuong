@@ -1533,7 +1533,7 @@
                 if (firebase.auth().currentUser) {
                     userDropdown.classList.toggle('show');
                 } else {
-                    modal.classList.add('show');
+                    window.location.href = 'auth.html';
                 }
             });
             closeBtn.addEventListener('click', function() { modal.classList.remove('show'); });
@@ -1682,7 +1682,6 @@
             function updateLoginState(user) {
                 if (user) {
                     let displayName;
-                    const photoURL = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
                     if (user.providerData && user.providerData[0]) {
                         const provider = user.providerData[0].providerId;
                         if (provider === 'password') displayName = user.email.split('@')[0];
@@ -1691,17 +1690,54 @@
                         displayName = user.displayName || user.email.split('@')[0] || 'Tài khoản';
                     }
                     const formattedName = displayName.length > 5 ? displayName.substring(0, 5) + '...' : displayName;
-                    loginBtn.innerHTML = `<img src="${photoURL}" alt="Avatar" class="user-avatar"><span>${formattedName}</span>`;
+                    
+                    // Get avatar from database with priority for custom avatar
+                    firebase.database().ref('users/' + user.uid).once('value')
+                        .then((snapshot) => {
+                            const userData = snapshot.val();
+                            let avatarSrc;
+                            
+                            // Priority: Custom avatar > Google Auth avatar > Default avatar
+                            if (userData?.photoURL && !userData.photoURL.includes('default-avatar')) {
+                                // User has custom avatar
+                                avatarSrc = userData.photoURL;
+                            } else if (user.photoURL && !user.photoURL.includes('default-avatar')) {
+                                // Use Google Auth avatar
+                                avatarSrc = user.photoURL;
+                            } else {
+                                // Fallback to default avatar
+                                avatarSrc = 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                            }
+                            
+                            loginBtn.innerHTML = `<img src="${avatarSrc}" alt="Avatar" class="user-avatar"><span>${formattedName}</span>`;
+                        })
+                        .catch(() => {
+                            // Fallback to Google Auth avatar or default
+                            const photoURL = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                            loginBtn.innerHTML = `<img src="${photoURL}" alt="Avatar" class="user-avatar"><span>${formattedName}</span>`;
+                        });
+                    
                     loginBtn.href = '#';
+                    
+                    // Only update basic info, don't override custom photoURL
                     const userData = {
                         uid: user.uid,
                         email: user.email,
                         displayName: user.displayName || displayName,
-                        photoURL: photoURL,
                         lastLogin: new Date().toISOString(),
                         provider: user.providerData[0]?.providerId || 'unknown'
                     };
-                    firebase.database().ref('users/' + user.uid).update(userData)
+                    
+                    // Check if user already has custom photoURL before updating
+                    firebase.database().ref('users/' + user.uid).once('value')
+                        .then((snapshot) => {
+                            const existingData = snapshot.val();
+                            // Only set photoURL if user doesn't have custom avatar
+                            if (!existingData || !existingData.photoURL || existingData.photoURL.includes('default-avatar')) {
+                                userData.photoURL = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/default-avatar.png';
+                            }
+                            return firebase.database().ref('users/' + user.uid).update(userData);
+                        })
                         .then(() => { /* console.log('User data saved successfully'); */ })
                         .catch((error) => { /* console.error('Error saving user data:', error); */ });
                 } else {
@@ -1730,7 +1766,9 @@
                     if (result.isConfirmed) {
                         firebase.auth().signOut().then(() => {
                             showSuccessAlert('Đã đăng xuất!', 'Bạn đã đăng xuất thành công.');
-                            userDropdown.classList.remove('show');
+                            setTimeout(() => {
+                                window.location.href = 'auth.html';
+                            }, 1500);
                         }).catch(() => {
                             showErrorAlert('Lỗi!', 'Có lỗi xảy ra khi đăng xuất.');
                         });
